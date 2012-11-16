@@ -51,31 +51,31 @@
     NSMutableArray *jcList;
 }
 
--(id) initRemembering:(int)nowRemembering
+- (id) initRemembering:(int)nowRemembering
         displaying:(int)nowDisplaying
         withDisplayLength:(int)displayLength;
 
 // Set various values
--(void) setRememberNum:(int)nowRemembering;
--(void) setDisplayNum:(int)nowDisplaying;
--(void) setDisplayLen:(int)newDisplayLength;
+- (void) setRememberNum:(int)nowRemembering;
+- (void) setDisplayNum:(int)nowDisplaying;
+- (void) setDisplayLen:(int)newDisplayLength;
 
 // Retrieve various values
--(int) displayLen;
--(int) jcListCount;
--(NSString *) clippingContentsAtPosition:(int)index;
--(NSString *) clippingDisplayStringAtPosition:(int)index;
--(NSString *) clippingTypeAtPosition:(int)index;
--(NSArray *) previousContents:(int)howMany;
--(NSArray *) previousDisplayStrings:(int)howMany;
+- (int) displayLen;
+- (int) jcListCount;
+- (NSString *) clippingContentsAtPosition:(int)index;
+- (NSString *) clippingDisplayStringAtPosition:(int)index;
+- (NSString *) clippingTypeAtPosition:(int)index;
+- (NSArray *) previousContents:(int)howMany;
+- (NSArray *) previousDisplayStrings:(int)howMany;
 
 // Add a clipping
--(void) addClipping:(NSString *)clipping ofType:(NSString *)type;
+- (void) addClipping:(NSString *)clipping ofType:(NSString *)type;
 
 // Delete a clipping
 
 // Delete all list clippings
--(void) clearList;
+- (void) clearList;
 
 // Delete all named clippings
 @end

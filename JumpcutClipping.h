@@ -40,26 +40,26 @@
     BOOL clipHasName;
 }
 
--(id) initWithContents:(NSString *)contents withType:(NSString *)type withDisplayLength:(int)displayLength;
-/* -(id) initWithCoder:(NSCoder *)coder;
--(void) decodeWithCoder:(NSCoder *)coder; */
--(NSString *) description;
+- (id) initWithContents:(NSString *)contents withType:(NSString *)type withDisplayLength:(int)displayLength;
+/* - (id) initWithCoder:(NSCoder *)coder;
+- (void) decodeWithCoder:(NSCoder *)coder; */
+- (NSString *) description;
 
 // set values
--(void) setContents:(NSString *)newContents setDisplayLength:(int)newDisplayLength;
--(void) setContents:(NSString *)newContents;
--(void) setType:(NSString *)newType;
--(void) setDisplayLength:(int)newDisplayLength;
--(void) setHasName:(BOOL)newHasName;
+- (void) setContents:(NSString *)newContents setDisplayLength:(int)newDisplayLength;
+- (void) setContents:(NSString *)newContents;
+- (void) setType:(NSString *)newType;
+- (void) setDisplayLength:(int)newDisplayLength;
+- (void) setHasName:(BOOL)newHasName;
 
 // Retrieve values
--(NSString *) contents;
--(int) displayLength;
--(NSString *) displayString;
--(NSString *) type;
--(BOOL) hasName;
+- (NSString *) contents;
+- (int) displayLength;
+- (NSString *) displayString;
+- (NSString *) type;
+- (BOOL) hasName;
 
 // Additional functions
--(void) resetDisplayString;
+- (void) resetDisplayString;
 
 @end

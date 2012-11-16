@@ -68,7 +68,6 @@ NSString *const SRShortcutCharactersIgnoringModifiers = @"charactersIgnoringModi
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
 }
 
 #pragma mark *** Cell Behavior ***
@@ -274,12 +273,10 @@ NSString *const SRShortcutCharactersIgnoringModifiers = @"charactersIgnoringModi
         return nil;
     }
 
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-                             [self keyCharsIgnoringModifiers], SRShortcutCharactersIgnoringModifiers,
-                             [self keyChars], SRShortcutCharacters,
-                             [NSNumber numberWithInteger:keyCombo.code], SRShortcutCodeKey,
-                             [NSNumber numberWithUnsignedInteger:keyCombo.flags], SRShortcutFlagsKey,
-                             nil];;
+    return @{SRShortcutCharactersIgnoringModifiers: [self keyCharsIgnoringModifiers],
+                             SRShortcutCharacters: [self keyChars],
+                             SRShortcutCodeKey: @(keyCombo.code),
+                             SRShortcutFlagsKey: @(keyCombo.flags)};;
 }
 
 - (void)setObjectValue:(NSDictionary *)shortcut
@@ -289,15 +286,15 @@ NSString *const SRShortcutCharactersIgnoringModifiers = @"charactersIgnoringModi
     NSString *keyCharsIgnoringModifiers = nil;
     if (shortcut != nil && [shortcut isKindOfClass:[NSDictionary class]])
     {
-        NSNumber *keyCode = [shortcut objectForKey:SRShortcutCodeKey];
-        NSNumber *modifierFlags = [shortcut objectForKey:SRShortcutFlagsKey];
+        NSNumber *keyCode = shortcut[SRShortcutCodeKey];
+        NSNumber *modifierFlags = shortcut[SRShortcutFlagsKey];
         if ([keyCode isKindOfClass:[NSNumber class]] && [modifierFlags isKindOfClass:[NSNumber class]])
         {
             keyCombo.code = [keyCode integerValue];
             keyCombo.flags = [modifierFlags unsignedIntegerValue];
         }
-        keyChars = [shortcut objectForKey:SRShortcutCharacters];
-        keyCharsIgnoringModifiers = [shortcut objectForKey:SRShortcutCharactersIgnoringModifiers];
+        keyChars = shortcut[SRShortcutCharacters];
+        keyCharsIgnoringModifiers = shortcut[SRShortcutCharactersIgnoringModifiers];
     }
 
     [self setKeyCombo:keyCombo keyChars:keyChars keyCharsIgnoringModifiers:keyCharsIgnoringModifiers];
@@ -367,7 +364,7 @@ NSString *const SRShortcutCharactersIgnoringModifiers = @"charactersIgnoringModi
 
     // apply the value transformer, if one has been set
     NSDictionary *value = [self objectValue];
-    NSDictionary *bindingOptions = [bindingInfo objectForKey:NSOptionsKey];
+    NSDictionary *bindingOptions = bindingInfo[NSOptionsKey];
     if (bindingOptions != nil)
     {
         NSValueTransformer *transformer = [bindingOptions valueForKey:NSValueTransformerBindingOption];
@@ -387,14 +384,14 @@ NSString *const SRShortcutCharactersIgnoringModifiers = @"charactersIgnoringModi
         }
     }
 
-    id boundObject = [bindingInfo objectForKey:NSObservedObjectKey];
+    id boundObject = bindingInfo[NSObservedObjectKey];
     if (NilOrNull(boundObject))
     {
         NSLog(@"ERROR: NSObservedObjectKey was nil for value binding in %s", __PRETTY_FUNCTION__);
         return;
     }
 
-    NSString *boundKeyPath = [bindingInfo objectForKey:NSObservedKeyPathKey];
+    NSString *boundKeyPath = bindingInfo[NSObservedKeyPathKey];
     if (NilOrNull(boundKeyPath))
     {
         NSLog(@"ERROR: NSObservedKeyPathKey was nil for value binding in %s", __PRETTY_FUNCTION__);

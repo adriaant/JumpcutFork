@@ -51,45 +51,45 @@
 }
 
 // Basic functionality
--(void) pollPB:(NSTimer *)timer;
--(BOOL) addClipToPasteboardFromCount:(int)indexInt;
--(void) setPBBlockCount:(NSNumber *)newPBBlockCount;
--(void) hideApp;
--(void) pasteFromStack;
--(void) fakeCommandV;
--(void) stackUp;
--(void) stackDown;
--(IBAction)clearClippingList:(id)sender;
+- (void) pollPB:(NSTimer *)timer;
+- (BOOL) addClipToPasteboardFromCount:(int)indexInt;
+- (void) setPBBlockCount:(NSNumber *)newPBBlockCount;
+- (void) hideApp;
+- (void) pasteFromStack;
+- (void) fakeCommandV;
+- (void) stackUp;
+- (void) stackDown;
+- (IBAction)clearClippingList:(id)sender;
 
 // Stack related
--(BOOL) isValidClippingNumber:(NSNumber *)number;
--(NSString *) clippingStringWithCount:(int)count;
+- (BOOL) isValidClippingNumber:(NSNumber *)number;
+- (NSString *) clippingStringWithCount:(int)count;
 	// Save and load
--(void) saveEngine;
--(void) loadEngineFromPList;
+- (void) saveEngine;
+- (void) loadEngineFromPList;
 
 // Hotkey related
--(void)hitMainHotKey:(SGHotKey *)hotKey;
+- (void)hitMainHotKey:(SGHotKey *)hotKey;
 
 // Bezel related
--(void) showBezel;
--(void) hideBezel;
--(void) processBezelKeyDown:(NSEvent *)theEvent;
--(void) metaKeysReleased;
+- (void) showBezel;
+- (void) hideBezel;
+- (void) processBezelKeyDown:(NSEvent *)theEvent;
+- (void) metaKeysReleased;
 
 // Menu related
--(void) updateMenu;
--(IBAction) processMenuClippingSelection:(id)sender;
--(IBAction) activateAndOrderFrontStandardAboutPanel:(id)sender;
+- (void) updateMenu;
+- (IBAction) processMenuClippingSelection:(id)sender;
+- (IBAction) activateAndOrderFrontStandardAboutPanel:(id)sender;
 
 // Preference related
--(IBAction) showPreferencePanel:(id)sender;
--(IBAction) setRememberNumPref:(id)sender;
--(IBAction) setDisplayNumPref:(id)sender;
--(IBAction) setBezelAlpha:(id)sender;
--(IBAction) switchMenuIcon:(id)sender;
--(IBAction) toggleLoadOnStartup:(id)sender;
--(IBAction) toggleMainHotKey:(id)sender;
--(void) setHotKeyPreferenceForRecorder:(SRRecorderControl *)aRecorder;
+- (IBAction) showPreferencePanel:(id)sender;
+- (IBAction) setRememberNumPref:(id)sender;
+- (IBAction) setDisplayNumPref:(id)sender;
+- (IBAction) setBezelAlpha:(id)sender;
+- (IBAction) switchMenuIcon:(id)sender;
+- (IBAction) toggleLoadOnStartup:(id)sender;
+- (IBAction) toggleMainHotKey:(id)sender;
+- (void) setHotKeyPreferenceForRecorder:(SRRecorderControl *)aRecorder;
 
 @end

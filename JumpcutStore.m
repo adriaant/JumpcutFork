@@ -29,14 +29,14 @@
 
 @implementation JumpcutStore
 
--(id) init
+- (id) init
 {
     return [self initRemembering:20
                 displaying:10	
                 withDisplayLength:40 ];
 }
 
--(id) initRemembering:(int)nowRemembering
+- (id) initRemembering:(int)nowRemembering
         displaying:(int)nowDisplaying
         withDisplayLength:(int)displayLength
 {
@@ -52,7 +52,7 @@
 }
 
 // Add a clipping
--(void) addClipping:(NSString *)clipping ofType:(NSString *)type{
+- (void) addClipping:(NSString *)clipping ofType:(NSString *)type{
     // Clipping object
     JumpcutClipping * newClipping;
 	// Create clipping
@@ -66,25 +66,23 @@
 		[jcList removeObjectAtIndex:jcRememberNum];
 	}
 
-    [newClipping release];
 }
 
--(void) addClipping:(NSString *)clipping ofType:(NSString *)type withPBCount:(int *)pbCount
+- (void) addClipping:(NSString *)clipping ofType:(NSString *)type withPBCount:(int *)pbCount
 {
     [self addClipping:clipping ofType:type];
 }
 
 // Clear remembered and listed
--(void) clearList {
+- (void) clearList {
     NSMutableArray *emptyJCList;
     emptyJCList = [[NSMutableArray alloc] init];
-    [jcList release];
     jcList = emptyJCList;
 }
 
 
 // Set various values
--(void) setRememberNum:(int)nowRemembering
+- (void) setRememberNum:(int)nowRemembering
 {
     if ( nowRemembering  > 0 ) {
         jcRememberNum = nowRemembering;
@@ -94,14 +92,14 @@
     }
 }
 
--(void) setDisplayNum:(int)nowDisplaying
+- (void) setDisplayNum:(int)nowDisplaying
 {
     if ( nowDisplaying > 0 ) {
         jcDisplayNum = nowDisplaying;
     }
 }
 
--(void) setDisplayLen:(int)newDisplayLength
+- (void) setDisplayLen:(int)newDisplayLength
 {
     NSEnumerator *listEnum = [jcList objectEnumerator];
     JumpcutClipping *aClipping;
@@ -114,43 +112,43 @@
     }
 }
 
--(int) displayLen
+- (int) displayLen
 {
     return jcDisplayLen;
 }
 
--(int) jcListCount
+- (int) jcListCount
 {
     return [jcList count];
 }
 
--(NSString *) clippingContentsAtPosition:(int)index
+- (NSString *) clippingContentsAtPosition:(int)index
 {
 	if ( index >= [jcList count] ) {
 		return nil;
 	} else {
-		return [NSString stringWithString:[[jcList objectAtIndex:index] contents]];
+		return [NSString stringWithString:[jcList[index] contents]];
 	}
 }
 
--(NSString *) clippingDisplayStringAtPosition:(int)index
+- (NSString *) clippingDisplayStringAtPosition:(int)index
 {
-    return [[jcList objectAtIndex:index] displayString];
+    return [jcList[index] displayString];
 }
 
--(NSString *) clippingTypeAtPosition:(int)index
+- (NSString *) clippingTypeAtPosition:(int)index
 {
     NSString *returnString;
-    returnString = [NSString stringWithString:[[jcList objectAtIndex:index] type]];
+    returnString = [NSString stringWithString:[jcList[index] type]];
 //    return [[jcList objectAtIndex:index] type];
     return returnString;
 }
 
--(NSArray *) previousContents:(int)howMany
+- (NSArray *) previousContents:(int)howMany
 {
     NSRange theRange;
     NSArray *subArray;
-    NSMutableArray *returnArray = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *returnArray = [[NSMutableArray alloc] init];
     NSEnumerator *enumerator;
     JumpcutClipping *aClipping;
     theRange.location = 0;
@@ -167,11 +165,11 @@
     return returnArray;
 }
 
--(NSArray *) previousDisplayStrings:(int)howMany
+- (NSArray *) previousDisplayStrings:(int)howMany
 {
     NSRange theRange;
     NSArray *subArray;
-    NSMutableArray *returnArray = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray *returnArray = [[NSMutableArray alloc] init];
     NSEnumerator *enumerator;
     JumpcutClipping *aClipping;
     theRange.location = 0;
@@ -188,7 +186,7 @@
     return returnArray;
 }
 
--(void) dealloc
+- (void) dealloc
 {
     // Free preferences
     jcRememberNum = 0;
@@ -196,9 +194,7 @@
     jcDisplayLen = 0;
 
     // Free collections
-    [jcList release];
    
-    [super dealloc];
 }
 
 @end

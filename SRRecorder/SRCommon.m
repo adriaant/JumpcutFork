@@ -16,6 +16,7 @@
 #import "SRCommon.h"
 #import "SRKeyCodeTransformer.h"
 #import "SRASCIIKeyCodeTransformer.h"
+#import <objc/message.h>
 
 //#define SRCommon_PotentiallyUsefulDebugInfo
 
@@ -40,7 +41,7 @@
 //----------------------------------------------------------
 NSString *SRStringForKeyCode(NSInteger keyCode)
 {
-    return [[SRKeyCodeTransformer sharedTransformer] transformedValue:[NSNumber numberWithShort:keyCode]];
+    return [[SRKeyCodeTransformer sharedTransformer] transformedValue:@(keyCode)];
 }
 
 //----------------------------------------------------------
@@ -48,7 +49,7 @@ NSString *SRStringForKeyCode(NSInteger keyCode)
 //----------------------------------------------------------
 NSString *SRPlainStringForKeyCode(NSInteger keyCode)
 {
-    return [[SRKeyCodeTransformer sharedPlainTransformer] transformedValue:[NSNumber numberWithShort:keyCode]];
+    return [[SRKeyCodeTransformer sharedPlainTransformer] transformedValue:@(keyCode)];
 }
 
 //----------------------------------------------------------
@@ -56,7 +57,7 @@ NSString *SRPlainStringForKeyCode(NSInteger keyCode)
 //----------------------------------------------------------
 NSString *SRASCIIStringForKeyCode(NSInteger keyCode)
 {
-    return [[SRASCIIKeyCodeTransformer sharedTransformer] transformedValue:[NSNumber numberWithShort:keyCode]];
+    return [[SRASCIIKeyCodeTransformer sharedTransformer] transformedValue:@(keyCode)];
 }
 
 //----------------------------------------------------------
@@ -64,7 +65,7 @@ NSString *SRASCIIStringForKeyCode(NSInteger keyCode)
 //----------------------------------------------------------
 NSString *SRPlainASCIIStringForKeyCode(NSInteger keyCode)
 {
-    return [[SRASCIIKeyCodeTransformer sharedPlainTransformer] transformedValue:[NSNumber numberWithShort:keyCode]];
+    return [[SRASCIIKeyCodeTransformer sharedPlainTransformer] transformedValue:@(keyCode)];
 }
 
 //----------------------------------------------------------
@@ -244,8 +245,8 @@ NSString *SRCharacterForKeyCodeAndCocoaFlags(NSInteger keyCode, NSUInteger cocoa
 
     UInt32 deadKeyState;
     OSStatus err = noErr;
-    CFLocaleRef locale = CFLocaleCopyCurrent();
-    [(id)CFMakeCollectable(locale) autorelease]; // Autorelease here so that it gets released no matter what
+   
+//    [(id)collectableLocale autorelease]; // Autorelease here so that it gets released no matter what
 
     TISInputSourceRef tisSource = TISCopyCurrentKeyboardInputSource();
     if (!tisSource)
@@ -271,9 +272,11 @@ NSString *SRCharacterForKeyCodeAndCocoaFlags(NSInteger keyCode, NSUInteger cocoa
     CFStringRef temp = CFStringCreateWithCharacters(kCFAllocatorDefault, unicodeString, 1);
     CFMutableStringRef mutableTemp = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, temp);
 
+    CFLocaleRef locale = CFLocaleCopyCurrent();
     CFStringCapitalize(mutableTemp, locale);
-
-    NSString *resultString = [NSString stringWithString:(NSString *)mutableTemp];
+    CFRelease(locale);
+    
+    NSString *resultString = [NSString stringWithString:(__bridge NSString *)mutableTemp];
 
     if (temp) CFRelease(temp);
     if (mutableTemp) CFRelease(mutableTemp);
@@ -315,7 +318,7 @@ CGFloat SRAnimationEaseInOut(CGFloat t)
 {
     NSString *reason = [error localizedRecoverySuggestion];
     return [self alertWithMessageText:[error localizedDescription]
-                        defaultButton:[[error localizedRecoveryOptions] objectAtIndex:0U]
+                        defaultButton:[error localizedRecoveryOptions][0U]
                       alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", (reason ? reason : @"")];
 }
 
@@ -351,11 +354,11 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 //	NSLog(@"supportingImageWithName: %@", name);
     if (nil == SRSharedImageCache)
     {
-        SRSharedImageCache = [[NSMutableDictionary dictionary] retain];
+        SRSharedImageCache = [NSMutableDictionary dictionary];
 //		NSLog(@"inited cache");
     }
     NSImage *cachedImage = nil;
-    if (nil != (cachedImage = [SRSharedImageCache objectForKey:name]))
+    if (nil != (cachedImage = SRSharedImageCache[name]))
     {
 //		NSLog(@"returned cached image: %@", cachedImage);
         return cachedImage;
@@ -363,7 +366,8 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 
 //	NSLog(@"constructing image");
     NSSize size;
-    NSValue *sizeValue = [self performSelector:NSSelectorFromString([NSString stringWithFormat:@"_size%@", name])];
+    //NSValue *sizeValue = [self performSelector:NSSelectorFromString([NSString stringWithFormat:@"_size%@", name])];
+    NSValue* sizeValue = objc_msgSend(self, NSSelectorFromString([NSString stringWithFormat:@"_size%@", name]));
     size = [sizeValue sizeValue];
 //	NSLog(@"size: %@", NSStringFromSize(size));
 
@@ -372,9 +376,8 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 //	NSLog(@"created customImageRep: %@", customImageRep);
     NSImage *returnImage = [[NSImage alloc] initWithSize:size];
     [returnImage addRepresentation:customImageRep];
-    [customImageRep release];
     [returnImage setScalesWhenResized:YES];
-    [SRSharedImageCache setObject:returnImage forKey:name];
+    SRSharedImageCache[name] = returnImage;
 
 #ifdef SRCommonWriteDebugImagery
 
@@ -398,7 +401,7 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 #endif
 
 //	NSLog(@"returned image: %@", returnImage);
-    return [returnImage autorelease];
+    return returnImage;
 }
 @end
 
@@ -449,9 +452,6 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 
     [bp fill];
 
-    [bp release];
-    [flip release];
-    [sh release];
 }
 
 + (NSValue *)_sizeSRRemoveShortcut
@@ -493,7 +493,6 @@ static NSMutableDictionary *SRSharedImageCache = nil;
     [cross lineToPoint:MakeRelativePoint(4.0f, 10.0f)];
 
     [cross stroke];
-    [cross release];
 }
 
 + (void)_drawSRRemoveShortcut:(id)anNSCustomImageRep

@@ -24,10 +24,10 @@
  */
 @interface SRValidator : NSObject
 {
-    NSObject<SRValidatorDelegate> *_delegate;
+    NSObject<SRValidatorDelegate> *__unsafe_unretained _delegate;
 }
 
-@property (assign) NSObject<SRValidatorDelegate> *delegate;
+@property (unsafe_unretained) NSObject<SRValidatorDelegate> *delegate;
 
 - (id)initWithDelegate:(NSObject<SRValidatorDelegate> *)aDelegate;
 

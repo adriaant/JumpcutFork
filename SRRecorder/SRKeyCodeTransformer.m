@@ -66,9 +66,7 @@ static NSString *const _SRSpecialKeyCodeStringsDictionaryCacheKey = @"specialKey
 
 - (void)dealloc
 {
-    [_cache release];
     [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
 }
 
 
@@ -96,12 +94,12 @@ static NSString *const _SRSpecialKeyCodeStringsDictionaryCacheKey = @"specialKey
 
 - (BOOL)isSpecialKeyCode:(NSInteger)aKeyCode
 {
-    return ([self._specialKeyCodeStringsDictionary objectForKey:SRInt(aKeyCode)] != nil);
+    return ((self._specialKeyCodeStringsDictionary)[@(aKeyCode)] != nil);
 }
 
 - (BOOL)isPadKeyCode:(NSInteger)aKeyCode
 {
-    return [self._padKeys containsObject:SRInt(aKeyCode)];
+    return [self._padKeys containsObject:@(aKeyCode)];
 }
 
 + (TISInputSourceRef)preferredKeyboardInputSource
@@ -124,17 +122,17 @@ static NSString *const _SRSpecialKeyCodeStringsDictionaryCacheKey = @"specialKey
 {
     @synchronized (self)
     {
-        NSMutableDictionary *d = [[[_cache objectForKey:_SRReverseTransformDictionaryCacheKey] retain] autorelease];
+        NSMutableDictionary *d = [_cache objectForKey:_SRReverseTransformDictionaryCacheKey];
         if (d == nil)
         {
             static const NSUInteger NumberOfPrecalculatedKeyCodes = 128U;
             d = [NSMutableDictionary dictionaryWithCapacity:NumberOfPrecalculatedKeyCodes];
             for (NSUInteger i = 0U; i < NumberOfPrecalculatedKeyCodes; ++i)
             {
-                NSNumber *keyCode = [NSNumber numberWithUnsignedInteger:i];
+                NSNumber *keyCode = @(i);
                 NSString *string = [self transformedValue:keyCode];
                 if ([string length] > 0)
-                    [d setObject:keyCode forKey:string];
+                    d[string] = keyCode;
             }
             [_cache setObject:d forKey:_SRReverseTransformDictionaryCacheKey];
         }
@@ -153,27 +151,25 @@ static NSString *const _SRSpecialKeyCodeStringsDictionaryCacheKey = @"specialKey
 {
     @synchronized (self)
     {
-        NSArray *a = [[[_cache objectForKey:_SRPadKeysCacheKey] retain] autorelease];
+        NSArray *a = [_cache objectForKey:_SRPadKeysCacheKey];
         if (a == nil)
         {
-            a = [NSArray arrayWithObjects:
-                             SRInt(65), // ,
-                             SRInt(67), // *
-                             SRInt(69), // +
-                             SRInt(75), // /
-                             SRInt(78), // -
-                             SRInt(81), // =
-                             SRInt(82), // 0
-                             SRInt(83), // 1
-                             SRInt(84), // 2
-                             SRInt(85), // 3
-                             SRInt(86), // 4
-                             SRInt(87), // 5
-                             SRInt(88), // 6
-                             SRInt(89), // 7
-                             SRInt(91), // 8
-                             SRInt(92), // 9
-                             nil];
+            a = @[@65, // ,
+                             @67, // *
+                             @69, // +
+                             @75, // /
+                             @78, // -
+                             @81, // =
+                             @82, // 0
+                             @83, // 1
+                             @84, // 2
+                             @85, // 3
+                             @86, // 4
+                             @87, // 5
+                             @88, // 6
+                             @89, // 7
+                             @91, // 8
+                             @92];
             [_cache setObject:a forKey:_SRPadKeysCacheKey];
         }
         return a;
@@ -191,47 +187,45 @@ static NSString *const _SRSpecialKeyCodeStringsDictionaryCacheKey = @"specialKey
 {
     @synchronized (self)
     {
-        NSDictionary *d = [[[_cache objectForKey:_SRSpecialKeyCodeStringsDictionaryCacheKey] retain] autorelease];
+        NSDictionary *d = [_cache objectForKey:_SRSpecialKeyCodeStringsDictionaryCacheKey];
         if (d == nil)
         {
-            d = [NSDictionary dictionaryWithObjectsAndKeys:
-                 self.transformsfunctionKeysToPlainStrings ? @"F1" : SRChar(NSF1FunctionKey),   @(kSRKeysF1),
-                 self.transformsfunctionKeysToPlainStrings ? @"F2" : SRChar(NSF2FunctionKey),   @(kSRKeysF2),
-                 self.transformsfunctionKeysToPlainStrings ? @"F3" : SRChar(NSF3FunctionKey),   @(kSRKeysF3),
-                 self.transformsfunctionKeysToPlainStrings ? @"F4" : SRChar(NSF4FunctionKey),   @(kSRKeysF4),
-                 self.transformsfunctionKeysToPlainStrings ? @"F5" : SRChar(NSF5FunctionKey),   @(kSRKeysF5),
-                 self.transformsfunctionKeysToPlainStrings ? @"F6" : SRChar(NSF6FunctionKey),   @(kSRKeysF6),
-                 self.transformsfunctionKeysToPlainStrings ? @"F7" : SRChar(NSF7FunctionKey),   @(kSRKeysF7),
-                 self.transformsfunctionKeysToPlainStrings ? @"F8" : SRChar(NSF8FunctionKey),   @(kSRKeysF8),
-                 self.transformsfunctionKeysToPlainStrings ? @"F9" : SRChar(NSF9FunctionKey),   @(kSRKeysF9),
-                 self.transformsfunctionKeysToPlainStrings ? @"F10" : SRChar(NSF10FunctionKey), @(kSRKeysF10),
-                 self.transformsfunctionKeysToPlainStrings ? @"F11" : SRChar(NSF11FunctionKey), @(kSRKeysF11),
-                 self.transformsfunctionKeysToPlainStrings ? @"F12" : SRChar(NSF12FunctionKey), @(kSRKeysF12),
-                 self.transformsfunctionKeysToPlainStrings ? @"F13" : SRChar(NSF13FunctionKey), @(kSRKeysF13),
-                 self.transformsfunctionKeysToPlainStrings ? @"F14" : SRChar(NSF14FunctionKey), @(kSRKeysF14),
-                 self.transformsfunctionKeysToPlainStrings ? @"F15" : SRChar(NSF15FunctionKey), @(kSRKeysF15),
-                 self.transformsfunctionKeysToPlainStrings ? @"F16" : SRChar(NSF16FunctionKey), @(kSRKeysF16),
-                 self.transformsfunctionKeysToPlainStrings ? @"F17" : SRChar(NSF17FunctionKey), @(kSRKeysF17),
-                 self.transformsfunctionKeysToPlainStrings ? @"F18" : SRChar(NSF18FunctionKey), @(kSRKeysF18),
-                 self.transformsfunctionKeysToPlainStrings ? @"F19" : SRChar(NSF19FunctionKey), @(kSRKeysF19),
-                 SRChar(KeyboardSpaceGlyph),                                                    @(kSRKeysSpace),
-                 SRChar(KeyboardDeleteLeftGlyph),                                               @(kSRKeysDeleteLeft),
-                 SRChar(KeyboardDeleteRightGlyph),                                              @(kSRKeysDeleteRight),
-                 SRChar(KeyboardPadClearGlyph),                                                 @(kSRKeysPadClear),
-                 SRChar(KeyboardLeftArrowGlyph),                                                @(kSRKeysLeftArrow),
-                 SRChar(KeyboardRightArrowGlyph),                                               @(kSRKeysRightArrow),
-                 SRChar(KeyboardUpArrowGlyph),                                                  @(kSRKeysUpArrow),
-                 SRChar(KeyboardDownArrowGlyph),                                                @(kSRKeysDownArrow),
-                 SRChar(KeyboardSoutheastArrowGlyph),                                           @(kSRKeysSoutheastArrow),
-                 SRChar(KeyboardNorthwestArrowGlyph),                                           @(kSRKeysNorthwestArrow),
-                 SRChar(KeyboardEscapeGlyph),                                                   @(kSRKeysEscape),
-                 SRChar(KeyboardPageDownGlyph),                                                 @(kSRKeysPageDown),
-                 SRChar(KeyboardPageUpGlyph),                                                   @(kSRKeysPageUp),
-                 SRChar(KeyboardReturnR2LGlyph),                                                @(kSRKeysReturnR2L),
-                 SRChar(KeyboardReturnGlyph),                                                   @(kSRKeysReturn),
-                 SRChar(KeyboardTabRightGlyph),                                                 @(kSRKeysTabRight),
-                 SRChar(KeyboardHelpGlyph),                                                     @(kSRKeysHelp),
-                 nil];
+            d = @{@(kSRKeysF1): self.transformsfunctionKeysToPlainStrings ? @"F1" : SRChar(NSF1FunctionKey),
+                 @(kSRKeysF2): self.transformsfunctionKeysToPlainStrings ? @"F2" : SRChar(NSF2FunctionKey),
+                 @(kSRKeysF3): self.transformsfunctionKeysToPlainStrings ? @"F3" : SRChar(NSF3FunctionKey),
+                 @(kSRKeysF4): self.transformsfunctionKeysToPlainStrings ? @"F4" : SRChar(NSF4FunctionKey),
+                 @(kSRKeysF5): self.transformsfunctionKeysToPlainStrings ? @"F5" : SRChar(NSF5FunctionKey),
+                 @(kSRKeysF6): self.transformsfunctionKeysToPlainStrings ? @"F6" : SRChar(NSF6FunctionKey),
+                 @(kSRKeysF7): self.transformsfunctionKeysToPlainStrings ? @"F7" : SRChar(NSF7FunctionKey),
+                 @(kSRKeysF8): self.transformsfunctionKeysToPlainStrings ? @"F8" : SRChar(NSF8FunctionKey),
+                 @(kSRKeysF9): self.transformsfunctionKeysToPlainStrings ? @"F9" : SRChar(NSF9FunctionKey),
+                 @(kSRKeysF10): self.transformsfunctionKeysToPlainStrings ? @"F10" : SRChar(NSF10FunctionKey),
+                 @(kSRKeysF11): self.transformsfunctionKeysToPlainStrings ? @"F11" : SRChar(NSF11FunctionKey),
+                 @(kSRKeysF12): self.transformsfunctionKeysToPlainStrings ? @"F12" : SRChar(NSF12FunctionKey),
+                 @(kSRKeysF13): self.transformsfunctionKeysToPlainStrings ? @"F13" : SRChar(NSF13FunctionKey),
+                 @(kSRKeysF14): self.transformsfunctionKeysToPlainStrings ? @"F14" : SRChar(NSF14FunctionKey),
+                 @(kSRKeysF15): self.transformsfunctionKeysToPlainStrings ? @"F15" : SRChar(NSF15FunctionKey),
+                 @(kSRKeysF16): self.transformsfunctionKeysToPlainStrings ? @"F16" : SRChar(NSF16FunctionKey),
+                 @(kSRKeysF17): self.transformsfunctionKeysToPlainStrings ? @"F17" : SRChar(NSF17FunctionKey),
+                 @(kSRKeysF18): self.transformsfunctionKeysToPlainStrings ? @"F18" : SRChar(NSF18FunctionKey),
+                 @(kSRKeysF19): self.transformsfunctionKeysToPlainStrings ? @"F19" : SRChar(NSF19FunctionKey),
+                 @(kSRKeysSpace): SRChar(KeyboardSpaceGlyph),
+                 @(kSRKeysDeleteLeft): SRChar(KeyboardDeleteLeftGlyph),
+                 @(kSRKeysDeleteRight): SRChar(KeyboardDeleteRightGlyph),
+                 @(kSRKeysPadClear): SRChar(KeyboardPadClearGlyph),
+                 @(kSRKeysLeftArrow): SRChar(KeyboardLeftArrowGlyph),
+                 @(kSRKeysRightArrow): SRChar(KeyboardRightArrowGlyph),
+                 @(kSRKeysUpArrow): SRChar(KeyboardUpArrowGlyph),
+                 @(kSRKeysDownArrow): SRChar(KeyboardDownArrowGlyph),
+                 @(kSRKeysSoutheastArrow): SRChar(KeyboardSoutheastArrowGlyph),
+                 @(kSRKeysNorthwestArrow): SRChar(KeyboardNorthwestArrowGlyph),
+                 @(kSRKeysEscape): SRChar(KeyboardEscapeGlyph),
+                 @(kSRKeysPageDown): SRChar(KeyboardPageDownGlyph),
+                 @(kSRKeysPageUp): SRChar(KeyboardPageUpGlyph),
+                 @(kSRKeysReturnR2L): SRChar(KeyboardReturnR2LGlyph),
+                 @(kSRKeysReturn): SRChar(KeyboardReturnGlyph),
+                 @(kSRKeysTabRight): SRChar(KeyboardTabRightGlyph),
+                 @(kSRKeysHelp): SRChar(KeyboardHelpGlyph)};
         }
         return d;
     }
@@ -273,7 +267,7 @@ static NSString *const _SRSpecialKeyCodeStringsDictionaryCacheKey = @"specialKey
         return nil;
 
     // We have some special gylphs for some special keys...
-    NSString *unmappedString = [self._specialKeyCodeStringsDictionary objectForKey:SRInt(keyCode)];
+    NSString *unmappedString = (self._specialKeyCodeStringsDictionary)[@(keyCode)];
     if (unmappedString != nil)
         return unmappedString;
 
@@ -323,7 +317,7 @@ static NSString *const _SRSpecialKeyCodeStringsDictionaryCacheKey = @"specialKey
     if (![value isKindOfClass:[NSString class]])
         return nil;
     else
-        return [self._reverseTransformDictionary objectForKey:value];
+        return (self._reverseTransformDictionary)[value];
 }
 
 @end

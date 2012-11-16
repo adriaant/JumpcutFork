@@ -46,17 +46,17 @@ Classes:
 }
 
 /// Mutator for specifying the tab view: (you should just hook this up in IB)
--(void)			setTabView: (NSTabView*)tv;
--(NSTabView*)   tabView;							///< Accessor for tab view containing the different pref panes.
+- (void)			setTabView: (NSTabView*)tv;
+- (NSTabView*)   tabView;							///< Accessor for tab view containing the different pref panes.
 
 	// Action for hooking up this object and the menu item:
--(IBAction)		orderFrontPrefsPanel: (id)sender;
+- (IBAction)		orderFrontPrefsPanel: (id)sender;
 
 	// Modification to original UKPrefsPanel suggested by OpenSword Pixen's code
--(void)			resizeToFit: (NSBox *)box;
+- (void)			resizeToFit: (NSBox *)box;
 
 // You don't have to care about these:
--(void)	mapTabsToToolbar;
--(IBAction)	changePanes: (id)sender;
+- (void)	mapTabsToToolbar;
+- (IBAction)	changePanes: (id)sender;
 
 @end

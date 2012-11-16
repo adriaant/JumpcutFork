@@ -61,20 +61,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [validator release];
-
-    [keyCharsIgnoringModifiers release];
-    [keyChars release];
-
-    [recordingGradient release];
-    [autosaveName release];
-
-    [cancelCharacterSet release];
-
-    [super dealloc];
-}
 
 #pragma mark *** Coding Support ***
 
@@ -86,7 +72,7 @@
 
     if ([aDecoder allowsKeyedCoding])
     {
-        autosaveName = [[aDecoder decodeObjectForKey:@"autosaveName"] retain];
+        autosaveName = [aDecoder decodeObjectForKey:@"autosaveName"];
 
         keyCombo.code = [[aDecoder decodeObjectForKey:@"keyComboCode"] shortValue];
         keyCombo.flags = [[aDecoder decodeObjectForKey:@"keyComboFlags"] unsignedIntegerValue];
@@ -111,7 +97,7 @@
     }
     else
     {
-        autosaveName = [[aDecoder decodeObject] retain];
+        autosaveName = [aDecoder decodeObject];
 
         keyCombo.code = [[aDecoder decodeObject] shortValue];
         keyCombo.flags = [[aDecoder decodeObject] unsignedIntegerValue];
@@ -131,11 +117,11 @@
 
     if ([aCoder allowsKeyedCoding])
     {
-        [aCoder encodeObject:[NSNumber numberWithShort:keyCombo.code] forKey:@"keyComboCode"];
-        [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:keyCombo.flags] forKey:@"keyComboFlags"];
+        [aCoder encodeObject:@(keyCombo.code) forKey:@"keyComboCode"];
+        [aCoder encodeObject:@(keyCombo.flags) forKey:@"keyComboFlags"];
 
-        [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:allowedFlags] forKey:@"allowedFlags"];
-        [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:requiredFlags] forKey:@"requiredFlags"];
+        [aCoder encodeObject:@(allowedFlags) forKey:@"allowedFlags"];
+        [aCoder encodeObject:@(requiredFlags) forKey:@"requiredFlags"];
 
         if (hasKeyChars)
         {
@@ -143,22 +129,22 @@
             [aCoder encodeObject:keyCharsIgnoringModifiers forKey:@"keyCharsIgnoringModifiers"];
         }
 
-        [aCoder encodeObject:[NSNumber numberWithBool:allowsKeyOnly] forKey:@"allowsKeyOnly"];
-        [aCoder encodeObject:[NSNumber numberWithBool:escapeKeysRecord] forKey:@"escapeKeysRecord"];
+        [aCoder encodeObject:@(allowsKeyOnly) forKey:@"allowsKeyOnly"];
+        [aCoder encodeObject:@(escapeKeysRecord) forKey:@"escapeKeysRecord"];
 
-        [aCoder encodeObject:[NSNumber numberWithBool:isAnimating] forKey:@"isAnimating"];
-        [aCoder encodeObject:[NSNumber numberWithShort:style] forKey:@"style"];
+        [aCoder encodeObject:@(isAnimating) forKey:@"isAnimating"];
+        [aCoder encodeObject:@(style) forKey:@"style"];
 
-        [aCoder encodeObject:[NSNumber numberWithBool:isASCIIOnly] forKey:@"isASCIIOnly"];
+        [aCoder encodeObject:@(isASCIIOnly) forKey:@"isASCIIOnly"];
     }
     else
     {
         // Unkeyed archiving and encoding is deprecated and unsupported. Use keyed archiving and encoding.
-        [aCoder encodeObject:[NSNumber numberWithShort:keyCombo.code]];
-        [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:keyCombo.flags]];
+        [aCoder encodeObject:@(keyCombo.code)];
+        [aCoder encodeObject:@(keyCombo.flags)];
 
-        [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:allowedFlags]];
-        [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:requiredFlags]];
+        [aCoder encodeObject:@(allowedFlags)];
+        [aCoder encodeObject:@(requiredFlags)];
     }
 }
 
@@ -167,8 +153,8 @@
     SRRecorderCell *cell;
     cell = (SRRecorderCell *)[super copyWithZone:zone];
 
-    cell->recordingGradient = [recordingGradient retain];
-    cell->autosaveName = [autosaveName retain];
+    cell->recordingGradient = recordingGradient;
+    cell->autosaveName = autosaveName;
 
     cell->isRecording = isRecording;
     cell->mouseInsideTrackingArea = mouseInsideTrackingArea;
@@ -190,7 +176,7 @@
 
     cell->style = style;
 
-    cell->cancelCharacterSet = [cancelCharacterSet retain];
+    cell->cancelCharacterSet = cancelCharacterSet;
 
     cell->delegate = delegate;
 
@@ -297,16 +283,15 @@
         [[NSGraphicsContext currentContext] restoreGraphicsState];
 
         // Draw text
-        NSMutableParagraphStyle *mpstyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+        NSMutableParagraphStyle *mpstyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
         [mpstyle setLineBreakMode:NSLineBreakByTruncatingTail];
         [mpstyle setAlignment:NSCenterTextAlignment];
 
         // Only the KeyCombo should be black and in a bigger font size
         BOOL recordingOrEmpty = (isRecording || [self _isEmpty]);
-        NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:mpstyle, NSParagraphStyleAttributeName,
-                                                                              [NSFont systemFontOfSize:(recordingOrEmpty ? [NSFont labelFontSize] : [NSFont smallSystemFontSize])], NSFontAttributeName,
-                                                                              (recordingOrEmpty ? [NSColor disabledControlTextColor] : [NSColor blackColor]), NSForegroundColorAttributeName,
-                                                                              nil];
+        NSDictionary *attributes = @{NSParagraphStyleAttributeName: mpstyle,
+                                                                              NSFontAttributeName: [NSFont systemFontOfSize:(recordingOrEmpty ? [NSFont labelFontSize] : [NSFont smallSystemFontSize])],
+                                                                              NSForegroundColorAttributeName: (recordingOrEmpty ? [NSColor disabledControlTextColor] : [NSColor blackColor])};
 
         NSString *displayString;
 
@@ -357,7 +342,7 @@
         textRect.size.width -= 6;
         textRect.size.width -= ((!isRecording && [self _isEmpty]) ? 6 : (isRecording ? [self _snapbackRectForFrame:cellFrame].size.width : [self _removeButtonRectForFrame:cellFrame].size.width) + 6);
         textRect.origin.x += 6;
-        textRect.origin.y = -(NSMidY(cellFrame) - [displayString sizeWithAttributes:attributes].height / 2);
+        textRect.origin.y = - (NSMidY(cellFrame) - [displayString sizeWithAttributes:attributes].height / 2);
 
         // Finally draw it
         [displayString drawInRect:textRect withAttributes:attributes];
@@ -422,15 +407,15 @@
         {
             if (isAnimatingNow)
             {
-//			[transitionMovement translateXBy:(isAnimatingTowardsRecording ? -(NSWidth(cellFrame)*(1.0-xanim)) : +(NSWidth(cellFrame)*xanim)) yBy:0.0];
+//			[transitionMovement translateXBy:(isAnimatingTowardsRecording ? - (NSWidth(cellFrame)*(1.0-xanim)) : +(NSWidth(cellFrame)*xanim)) yBy:0.0];
                 if (SRAnimationAxisIsY)
                 {
-//				[viewportMovement translateXBy:0.0 yBy:(isAnimatingTowardsRecording ? -(NSHeight(cellFrame)*(xanim)) : -(NSHeight(cellFrame)*(1.0-xanim)))];
+//				[viewportMovement translateXBy:0.0 yBy:(isAnimatingTowardsRecording ? - (NSHeight(cellFrame)*(xanim)) : - (NSHeight(cellFrame)*(1.0-xanim)))];
                     [viewportMovement translateXBy:0.0f yBy:(isAnimatingTowardsRecording ? NSHeight(cellFrame) * (xanim) : NSHeight(cellFrame) * (1.0f - xanim))];
                 }
                 else
                 {
-                    [viewportMovement translateXBy:(isAnimatingTowardsRecording ? -(NSWidth(cellFrame) * (xanim)) : -(NSWidth(cellFrame) * (1.0f - xanim))) yBy:0.0f];
+                    [viewportMovement translateXBy:(isAnimatingTowardsRecording ? - (NSWidth(cellFrame) * (xanim)) : - (NSWidth(cellFrame) * (1.0f - xanim))) yBy:0.0f];
                 }
             }
             else
@@ -441,7 +426,7 @@
                 }
                 else
                 {
-                    [viewportMovement translateXBy:-(NSWidth(cellFrame)) yBy:0.0f];
+                    [viewportMovement translateXBy:- (NSWidth(cellFrame)) yBy:0.0f];
                 }
             }
         }
@@ -490,9 +475,8 @@
                 gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.75f alpha:alphaRecording]
                                                          endingColor:[NSColor colorWithCalibratedWhite:0.90f alpha:alphaRecording]];
             }
-            CGFloat insetAmount = -([snapBackButton lineWidth] / 2.0f);
+            CGFloat insetAmount = - ([snapBackButton lineWidth] / 2.0f);
             [gradient drawInRect:NSInsetRect(correctedSnapBackRect, insetAmount, insetAmount) angle:90.0f];
-            [gradient release];
 
             /*
            // Highlight if inside or down
@@ -524,7 +508,7 @@
 
 
         // Draw text
-        NSMutableParagraphStyle *mpstyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+        NSMutableParagraphStyle *mpstyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
         [mpstyle setLineBreakMode:NSLineBreakByTruncatingTail];
         [mpstyle setAlignment:NSCenterTextAlignment];
 
@@ -542,10 +526,9 @@
         {
             // Only the KeyCombo should be black and in a bigger font size
             BOOL recordingOrEmpty = (isVaguelyRecording || [self _isEmpty]);
-            NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:mpstyle, NSParagraphStyleAttributeName,
-                                                                                  [NSFont systemFontOfSize:(recordingOrEmpty ? [NSFont labelFontSize] : [NSFont smallSystemFontSize])], NSFontAttributeName,
-                                                                                  [(recordingOrEmpty ? [NSColor disabledControlTextColor] : [NSColor blackColor]) colorWithAlphaComponent:alphaRecordingText], NSForegroundColorAttributeName,
-                                                                                  nil];
+            NSDictionary *attributes = @{NSParagraphStyleAttributeName: mpstyle,
+                                                                                  NSFontAttributeName: [NSFont systemFontOfSize:(recordingOrEmpty ? [NSFont labelFontSize] : [NSFont smallSystemFontSize])],
+                                                                                  NSForegroundColorAttributeName: [(recordingOrEmpty ? [NSColor disabledControlTextColor] : [NSColor blackColor]) colorWithAlphaComponent:alphaRecordingText]};
             // Recording, but no modifier keys down
             if (![self _validModifierFlags:recordingFlags])
             {
@@ -587,10 +570,9 @@
 
         {
             // Only the KeyCombo should be black and in a bigger font size
-            NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:mpstyle, NSParagraphStyleAttributeName,
-                                                                                  [NSFont systemFontOfSize:([self _isEmpty] ? [NSFont labelFontSize] : [NSFont smallSystemFontSize])], NSFontAttributeName,
-                                                                                  [([self _isEmpty] ? [NSColor disabledControlTextColor] : [NSColor blackColor]) colorWithAlphaComponent:alphaCombo], NSForegroundColorAttributeName,
-                                                                                  nil];
+            NSDictionary *attributes = @{NSParagraphStyleAttributeName: mpstyle,
+                                                                                  NSFontAttributeName: [NSFont systemFontOfSize:([self _isEmpty] ? [NSFont labelFontSize] : [NSFont smallSystemFontSize])],
+                                                                                  NSForegroundColorAttributeName: [([self _isEmpty] ? [NSColor disabledControlTextColor] : [NSColor blackColor]) colorWithAlphaComponent:alphaCombo]};
             // Not recording...
             if ([self _isEmpty])
             {
@@ -826,7 +808,7 @@
 - (BOOL)performKeyEquivalent:(NSEvent *)theEvent
 {
     NSUInteger flags = [self _filteredCocoaFlags:[theEvent modifierFlags]];
-    NSNumber *keyCodeNumber = [NSNumber numberWithUnsignedShort:[theEvent keyCode]];
+    NSNumber *keyCodeNumber = @([theEvent keyCode]);
     BOOL snapback = [cancelCharacterSet containsObject:keyCodeNumber];
     BOOL validModifiers = [self _validModifierFlags:(snapback) ? [theEvent modifierFlags] : flags]; // Snapback key shouldn't interfer with required flags!
 
@@ -895,8 +877,8 @@
                         keyCombo.code = [theEvent keyCode];
 
                         hasKeyChars = YES;
-                        keyChars = [[theEvent characters] retain];
-                        keyCharsIgnoringModifiers = [[theEvent charactersIgnoringModifiers] retain];
+                        keyChars = [theEvent characters];
+                        keyCharsIgnoringModifiers = [theEvent charactersIgnoringModifiers];
 //						NSLog(@"keychars: %@, ignoringmods: %@", keyChars, keyCharsIgnoringModifiers);
 //						NSLog(@"calculated keychars: %@, ignoring: %@", isASCIIOnly ? SRASCIIStringForKeyCode(keyCombo.code) : SRStringForKeyCode(keyCombo.code),
 //                              SRCharacterForKeyCodeAndCocoaFlags(keyCombo.code,keyCombo.flags));
@@ -1056,12 +1038,8 @@
 
 - (void)setKeyCombo:(KeyCombo)newKeyCombo keyChars:(NSString *)newKeyChars keyCharsIgnoringModifiers:(NSString *)newKeyCharsIgnoringModifiers
 {
-    [newKeyChars retain];
-    [keyChars release];
     keyChars = newKeyChars;
 
-    [newKeyCharsIgnoringModifiers retain];
-    [keyCharsIgnoringModifiers release];
     keyCharsIgnoringModifiers = newKeyCharsIgnoringModifiers;
 
     hasKeyChars = (keyChars != nil) || (keyCharsIgnoringModifiers != nil);
@@ -1122,8 +1100,8 @@
     hasKeyChars = NO;
 
     // These keys will cancel the recoding mode if not pressed with any modifier
-    cancelCharacterSet = [[NSSet alloc] initWithObjects:[NSNumber numberWithInteger:ShortcutRecorderEscapeKey],
-                                                        [NSNumber numberWithInteger:ShortcutRecorderBackspaceKey], [NSNumber numberWithInteger:ShortcutRecorderDeleteKey], nil];
+    cancelCharacterSet = [[NSSet alloc] initWithObjects:@ShortcutRecorderEscapeKey,
+                                                        @ShortcutRecorderBackspaceKey, @ShortcutRecorderDeleteKey, nil];
 
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter addObserver:self selector:@selector(_createGradient) name:NSSystemColorsDidChangeNotification object:nil]; // recreate gradient if needed

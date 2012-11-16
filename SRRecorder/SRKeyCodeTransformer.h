@@ -52,11 +52,11 @@
 - (BOOL)isPadKeyCode:(NSInteger)aKeyCode;
 
 
-@property (nonatomic, retain) NSDictionary *_reverseTransformDictionary;
+@property (nonatomic, strong) NSDictionary *_reverseTransformDictionary;
 
-@property (nonatomic, retain) NSArray *_padKeys;
+@property (nonatomic, strong) NSArray *_padKeys;
 
-@property (nonatomic, retain) NSDictionary *_specialKeyCodeStringsDictionary;
+@property (nonatomic, strong) NSDictionary *_specialKeyCodeStringsDictionary;
 
 - (void)_keyboardInputSourceDidChange;
 

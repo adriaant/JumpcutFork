@@ -40,13 +40,13 @@ Headers:
 Constructor:
 -------------------------------------------------------------------------- */
 
--(id) init
+- (id) init
 {
 	if( self = [super init] )
 	{
 		tabView = nil;
 		itemsList = [[NSMutableDictionary alloc] init];
-		baseWindowName = [@"" retain];
+		baseWindowName = @"";
 	}
 	
 	return self;
@@ -57,12 +57,6 @@ Constructor:
 Destructor:
 -------------------------------------------------------------------------- */
 
--(void)	dealloc
-{
-	[itemsList release];
-	[baseWindowName release];
-	[super dealloc];
-}
 
 
 /* -----------------------------------------------------------------------------
@@ -79,7 +73,7 @@ empty toolbar. ... bummer.
 If anybody knows how to fix this, you're welcome to tell me.
 -------------------------------------------------------------------------- */
 
--(void)	awakeFromNib
+- (void)	awakeFromNib
 {
 	NSString*		wndTitle = nil;
 	
@@ -87,8 +81,7 @@ If anybody knows how to fix this, you're welcome to tell me.
 	wndTitle = [[tabView window] title];
 	if( [wndTitle length] > 0 )
 	{
-		[baseWindowName release];
-		baseWindowName = [[NSString stringWithFormat: @"%@ : ", wndTitle] retain];
+		baseWindowName = [NSString stringWithFormat: @"%@ : ", wndTitle];
 	}
 	
 	
@@ -102,7 +95,7 @@ If anybody knows how to fix this, you're welcome to tell me.
 										  [[tabView window] frame].size.height)
 					   display:YES
 					   animate:YES];
-	id box = [[[[tabView tabViewItemAtIndex:[tabView indexOfTabViewItem:[tabView selectedTabViewItem]]] view] subviews] objectAtIndex:0];
+	id box = [[[tabView tabViewItemAtIndex:[tabView indexOfTabViewItem:[tabView selectedTabViewItem]]] view] subviews][0];
 	// We want to obtain our current contentView height and compare it to box
 	if ([box isKindOfClass:[NSBox class]])
 	{
@@ -119,7 +112,7 @@ Tab title		-   Name for toolbar item.
 Tab identifier  -	Image file name and toolbar item identifier.
 -------------------------------------------------------------------------- */
 
--(void) mapTabsToToolbar
+- (void) mapTabsToToolbar
 {
     // Create a new toolbar instance, and attach it to our document window 
     NSToolbar		*toolbar =[[tabView window] toolbar];
@@ -128,7 +121,7 @@ Tab identifier  -	Image file name and toolbar item identifier.
 	NSTabViewItem	*currPage = nil;
 	
 	if( toolbar == nil )   // No toolbar yet? Create one!
-		toolbar = [[[NSToolbar alloc] initWithIdentifier:@"net.sf.Jumpcut.prefsToolbar"] autorelease];
+		toolbar = [[NSToolbar alloc] initWithIdentifier:@"net.sf.Jumpcut.prefsToolbar"];
 	
     // Set up toolbar properties: Allow customization, give a default display mode, and remember state in user defaults 
     [toolbar setAllowsUserCustomization: YES];
@@ -145,7 +138,7 @@ Tab identifier  -	Image file name and toolbar item identifier.
 		NSTabViewItem*		theItem = [tabView tabViewItemAtIndex:x];
 		NSString*			theIdentifier = [theItem identifier];
 		NSString*			theLabel = [theItem label];
-		[itemsList setObject:theLabel forKey:theIdentifier];
+		itemsList[theIdentifier] = theLabel;
 	}
     
     // We are the delegate
@@ -178,7 +171,7 @@ orderFrontPrefsPanel:
 IBAction to assign to "Preferences..." menu item.
 -------------------------------------------------------------------------- */
 
--(IBAction)		orderFrontPrefsPanel: (id)sender
+- (IBAction)		orderFrontPrefsPanel: (id)sender
 {
 	[[tabView window] makeKeyAndOrderFront:sender];
 }
@@ -189,13 +182,13 @@ setTabView:
 Accessor for specifying the tab view to query.
 -------------------------------------------------------------------------- */
 
--(void)			setTabView: (NSTabView*)tv
+- (void)			setTabView: (NSTabView*)tv
 {
 	tabView = tv;
 }
 
 
--(NSTabView*)   tabView
+- (NSTabView*)   tabView
 {
 	return tabView;
 }
@@ -206,14 +199,14 @@ Create an item with the proper image and name based on our list
 of tabs for the specified identifier.
 -------------------------------------------------------------------------- */
 
--(NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier: (NSString *) itemIdent willBeInsertedIntoToolbar:(BOOL) willBeInserted
+- (NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier: (NSString *) itemIdent willBeInsertedIntoToolbar:(BOOL) willBeInserted
 {
     // Required delegate method:  Given an item identifier, this method returns an item 
     // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
-    NSToolbarItem   *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+    NSToolbarItem   *toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier: itemIdent];
     NSString*		itemLabel;
 	
-    if( (itemLabel = [itemsList objectForKey:itemIdent]) != nil )
+    if( (itemLabel = itemsList[itemIdent]) != nil )
 	{
 		// Set the text label to be displayed in the toolbar and customization palette 
 		[toolbarItem setLabel: itemLabel];
@@ -246,7 +239,7 @@ automagically select the appropriate item when it is clicked.
 -------------------------------------------------------------------------- */
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_3
--(NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar*)toolbar
+- (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar*)toolbar
 {
 	return [itemsList allKeys];
 }
@@ -260,13 +253,13 @@ reflect the current pane and the proper pane to be shown in response to
 a click.
 -------------------------------------------------------------------------- */
 
--(IBAction)	changePanes: (id)sender
+- (IBAction)	changePanes: (id)sender
 {
 	
 	[tabView selectTabViewItemAtIndex: [sender tag]];
 //	[[tabView window] setTitle: [baseWindowName stringByAppendingString: [sender label]]];
 	
-	id box = [[[[tabView tabViewItemAtIndex:[sender tag]] view] subviews] objectAtIndex:0];
+	id box = [[[tabView tabViewItemAtIndex:[sender tag]] view] subviews][0];
 	// We want to obtain our current contentView height and compare it to box
 	if ([box isKindOfClass:[NSBox class]])
 	{
@@ -275,7 +268,7 @@ a click.
 	}
 }
 
--(void) resizeToFit:(NSBox *)box
+- (void) resizeToFit:(NSBox *)box
 {
 	float sizeDifference = [box frame].size.height - [[[tabView window] contentView] frame].size.height;
 	[[tabView window] setFrame:NSMakeRect([[tabView window] frame].origin.x,
@@ -295,7 +288,7 @@ default.
 This is simply a list of all tab view items in order.
 -------------------------------------------------------------------------- */
 
--(NSArray*) toolbarDefaultItemIdentifiers: (NSToolbar *) toolbar
+- (NSArray*) toolbarDefaultItemIdentifiers: (NSToolbar *) toolbar
 {
 	int	itemCount = [tabView numberOfTabViewItems];
 	int x;
@@ -320,13 +313,13 @@ toolbar. We allow a couple more items (flexible space, separator lines
 									   etc.) in addition to our custom items.
 -------------------------------------------------------------------------- */
 
--(NSArray*) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar
+- (NSArray*) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar
 {
-    NSMutableArray*		allowedItems = [[[itemsList allKeys] mutableCopy] autorelease];
+    NSMutableArray*		allowedItems = [[itemsList allKeys] mutableCopy];
 	
-	[allowedItems addObjectsFromArray: [NSArray arrayWithObjects: NSToolbarSeparatorItemIdentifier,
+	[allowedItems addObjectsFromArray: @[NSToolbarSeparatorItemIdentifier,
 		NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier,
-		NSToolbarCustomizeToolbarItemIdentifier, nil] ];
+		NSToolbarCustomizeToolbarItemIdentifier] ];
 	
 	return allowedItems;
 }

@@ -28,7 +28,7 @@
 
 @implementation JumpcutClipping
 
--(id) init
+- (id) init
 {
     self = [self initWithContents:@"" withType:@"" withDisplayLength:40];
     if (self != nil)
@@ -38,14 +38,14 @@
     return self;
 }
 
--(id) initWithContents:(NSString *)contents withType:(NSString *)type withDisplayLength:(int)displayLength
+- (id) initWithContents:(NSString *)contents withType:(NSString *)type withDisplayLength:(int)displayLength
 {
     self = [super init];
     if (self != nil)
     {
-        clipContents = [[[NSString alloc] init] retain];
-        clipDisplayString = [[[NSString alloc] init] retain];
-        clipType = [[[NSString alloc] init] retain];
+        clipContents = [[NSString alloc] init];
+        clipDisplayString = [[NSString alloc] init];
+        clipType = [[NSString alloc] init];
 
         [self setContents:contents setDisplayLength:displayLength];
         [self setType:type];
@@ -83,34 +83,27 @@
     [coder encodeValueOfObjCType:@encode(BOOL) at:&codeHasName];
 } */
 
--(void) setContents:(NSString *)newContents setDisplayLength:(int)newDisplayLength
+- (void) setContents:(NSString *)newContents setDisplayLength:(int)newDisplayLength
 {
-    id old = clipContents;
-    [newContents retain];
     clipContents = newContents;
-    [old release];
     if ( newDisplayLength  > 0 ) {
         clipDisplayLength = newDisplayLength;
     }
    [self resetDisplayString];
 }
 
--(void) setContents:(NSString *)newContents
+- (void) setContents:(NSString *)newContents
 {
-    [newContents retain];
-    [clipContents release];
     clipContents = newContents;
     [self resetDisplayString];
 }
 
--(void) setType:(NSString *)newType
+- (void) setType:(NSString *)newType
 {
-    [newType retain];
-    [clipType release];
     clipType = newType;
 }
 
--(void) setDisplayLength:(int)newDisplayLength
+- (void) setDisplayLength:(int)newDisplayLength
 {
     if ( newDisplayLength  > 0 ) {
         clipDisplayLength = newDisplayLength;
@@ -118,19 +111,18 @@
     }
 }
 
--(void) setHasName:(BOOL)newHasName
+- (void) setHasName:(BOOL)newHasName
 {
         clipHasName = newHasName;
 }
 
--(void) resetDisplayString
+- (void) resetDisplayString
 {
     NSString *newDisplayString, *firstLineOfClipping;
 	NSUInteger start, lineEnd, contentsEnd;
 	NSRange startRange = NSMakeRange(0,0);
 	NSRange contentsRange;
 	// We're resetting the display string, so release the old one.
-    [clipDisplayString release];
 	// We want to restrict the display string to the clipping contents through the first line break.
 	[clipContents getLineStart:&start end:&lineEnd contentsEnd:&contentsEnd forRange:startRange];
 	contentsRange = NSMakeRange(0, contentsEnd);
@@ -140,18 +132,17 @@
     } else {
         newDisplayString = [NSString stringWithString:firstLineOfClipping];
     }
-    [newDisplayString retain];
     clipDisplayString = newDisplayString;
 }
 
--(NSString *) description
+- (NSString *) description
 {
     NSString *description = [[super description] stringByAppendingString:@": "];
     description = [description stringByAppendingString:[self displayString]];   
     return description;
 }
 
--(NSString *) contents
+- (NSString *) contents
 {
 //    NSString *returnClipContents;
 //    returnClipContents = [NSString stringWithString:clipContents];
@@ -159,17 +150,17 @@
     return clipContents;
 }
 
--(int) displayLength
+- (int) displayLength
 {
     return clipDisplayLength;
 }
 
--(NSString *) type
+- (NSString *) type
 {
     return clipType;
 }
 
--(NSString *) displayString
+- (NSString *) displayString
 {
     // QUESTION
     // Why doesn't the below work?
@@ -179,18 +170,14 @@
     return clipDisplayString;
 }
 
--(BOOL) hasName
+- (BOOL) hasName
 {
     return clipHasName;
 }
 
--(void) dealloc
+- (void) dealloc
 {
-    [clipContents release];
-    [clipType release];
     clipDisplayLength = 0;
-    [clipDisplayString release];
     clipHasName = 0;
-    [super dealloc];
 }
 @end

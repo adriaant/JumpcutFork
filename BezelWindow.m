@@ -74,8 +74,6 @@
 
 - (void)setTitle:(NSString *)newTitle
 {
-	[newTitle retain];
-	[title release];
 	title = newTitle;
 }
 
@@ -86,16 +84,12 @@
 
 - (void)setCharString:(NSString *)newChar
 {
-	[newChar retain];
-	[charString release];
 	charString = newChar;
 	[charField setStringValue:charString];
 }
 
 - (void)setText:(NSString *)newText
 {
-	[newText retain];
-	[bezelText release];
 	bezelText = newText;
 	[textField setStringValue:bezelText];
 }
@@ -115,7 +109,7 @@
 	[[NSColor colorWithCalibratedWhite:0.1 alpha:alpha] set];
     [roundedRec fill];
 	[bg unlockFocus];
-	return [NSColor colorWithPatternImage:[bg autorelease]];
+	return [NSColor colorWithPatternImage:bg];
 }
 
 - (NSColor *)sizedBezelBackgroundWithRadius:(float)radius withAlpha:(float)alpha
@@ -123,18 +117,11 @@
 	return [self roundedBackgroundWithRect:[self frame] withRadius:radius withAlpha:alpha];
 }
 
--(BOOL)canBecomeKeyWindow
+- (BOOL)canBecomeKeyWindow
 {
 	return YES;
 }
 
-- (void)dealloc
-{
-	[textField release];
-	[charField release];
-	[iconView release];
-	[super dealloc];
-}
 
 - (BOOL)performKeyEquivalent:(NSEvent*) theEvent
 {

@@ -23,7 +23,7 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
 }
 
 + (id)keyComboWithKeyCode:(NSInteger)theKeyCode modifiers:(NSInteger)theModifiers {
-  return [[[self alloc] initWithKeyCode:theKeyCode modifiers:theModifiers] autorelease];
+  return [[self alloc] initWithKeyCode:theKeyCode modifiers:theModifiers];
 }
 
 
@@ -44,10 +44,10 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
     theKeyCode = -1;
     theModifiers = -1;
   } else {
-    theKeyCode = [[thePlist objectForKey:kKeyCodeDictionaryKey] integerValue];
+    theKeyCode = [thePlist[kKeyCodeDictionaryKey] integerValue];
     if (theKeyCode <= 0) theKeyCode = -1;
     
-    theModifiers = [[thePlist objectForKey:kModifiersDictionaryKey] integerValue];
+    theModifiers = [thePlist[kModifiersDictionaryKey] integerValue];
     if (theModifiers <= 0) theModifiers = -1;    
   }
   
@@ -56,10 +56,8 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
 
 
 - (id)plistRepresentation {
-  return [NSDictionary dictionaryWithObjectsAndKeys:
-            [NSNumber numberWithInteger:self.keyCode], kKeyCodeDictionaryKey,
-            [NSNumber numberWithInteger:self.modifiers], kModifiersDictionaryKey,
-            nil];  
+  return @{kKeyCodeDictionaryKey: @(self.keyCode),
+            kModifiersDictionaryKey: @(self.modifiers)};  
 }
 
 - (BOOL)isEqual:(SGKeyCombo *)theCombo {
@@ -107,7 +105,7 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
 		path = [[NSBundle bundleForClass:self] pathForResource:@"SGKeyCodes" ofType:@"plist"];
 		contents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
     NSAssert(contents != nil, @"Contents of SGKeyCodes is nil");    
-		keyCodes = [[contents propertyList] retain];
+		keyCodes = [contents propertyList];
 	}
 	
 	return keyCodes;
@@ -118,7 +116,7 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
 	NSString *string;
 	
 	key = [NSString stringWithFormat:@"%d", theKeyCode];
-	string = [theDictionary objectForKey:key];
+	string = theDictionary[key];
 	
 	if( !string )
 		string = [NSString stringWithFormat:@"%X", theKeyCode];
@@ -135,8 +133,8 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
 	keyCodeString = [NSString stringWithFormat: @"%d", theKeyCode];
 	
 	//Handled if its not handled by translator
-	unmappedKeys = [theDictionary objectForKey:@"unmappedKeys"];
-	result = [unmappedKeys objectForKey:keyCodeString];
+	unmappedKeys = theDictionary[@"unmappedKeys"];
+	result = unmappedKeys[keyCodeString];
 	if( result )
 		return result;
 	
@@ -144,9 +142,9 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
 	result = [[[SGKeyCodeTranslator currentTranslator] translateKeyCode:theKeyCode] uppercaseString];
 	
 	//Handle if its a key-pad key
-	padKeys = [theDictionary objectForKey:@"padKeys"];  
+	padKeys = theDictionary[@"padKeys"];  
 	if([padKeys indexOfObject:keyCodeString] != NSNotFound) {
-    result = [NSString stringWithFormat:@"%@ %@", [theDictionary objectForKey:@"padKeyString"], result];
+    result = [NSString stringWithFormat:@"%@ %@", theDictionary[@"padKeyString"], result];
 	}
 	
 	return result;
@@ -156,7 +154,7 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
 	NSDictionary *dict;
   
 	dict = [self _keyCodesDictionary];
-	if([[dict objectForKey:@"version"] integerValue] <= 0)
+	if([dict[@"version"] integerValue] <= 0)
 		return [self _stringForKeyCode:theKeyCode legacyKeyCodeMap:dict];
   
 	return [self _stringForKeyCode:theKeyCode newKeyCodeMap:dict];

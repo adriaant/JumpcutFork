@@ -107,25 +107,21 @@
 - (BOOL)isKeyCode:(NSInteger)aKeyCode andFlagsTakenInSystemShortcuts:(NSUInteger)aFlags error:(NSError **)outError
 {
     CFArrayRef symbolicHotKeys = NULL;
-    OSStatus err = CopySymbolicHotKeys(&symbolicHotKeys);
-
-    if (err != noErr)
-        return YES;
-
-    [(NSArray *)symbolicHotKeys autorelease];
-
     aFlags &= SRCocoaFlagsMask; // flags may contain not only modifiers
 
-    for (NSDictionary *symbolicHotKey in (NSArray *)symbolicHotKeys)
+    OSStatus err = CopySymbolicHotKeys(&symbolicHotKeys);
+    if (err != noErr)
+        return YES;
+    for (NSDictionary *symbolicHotKey in (__bridge NSArray *)symbolicHotKeys)
     {
-        if ((CFBooleanRef)[symbolicHotKey objectForKey:(NSString *)kHISymbolicHotKeyEnabled] != kCFBooleanTrue)
+        if ((__bridge CFBooleanRef)symbolicHotKey[(NSString *)kHISymbolicHotKeyEnabled] != kCFBooleanTrue)
             continue;
 
-        NSInteger symbolicHotKeyCode = [[symbolicHotKey objectForKey:(NSString *)kHISymbolicHotKeyCode] integerValue];
+        NSInteger symbolicHotKeyCode = [symbolicHotKey[(NSString *)kHISymbolicHotKeyCode] integerValue];
 
         if (symbolicHotKeyCode == aKeyCode)
         {
-            NSUInteger symbolicHotKeyFlags = [[symbolicHotKey objectForKey:(NSString *)kHISymbolicHotKeyModifiers] unsignedIntegerValue]; // Carbon modifiers see HIToolbox/Event.h
+            NSUInteger symbolicHotKeyFlags = [symbolicHotKey[(NSString *)kHISymbolicHotKeyModifiers] unsignedIntegerValue]; // Carbon modifiers see HIToolbox/Event.h
             symbolicHotKeyFlags &= SRCarbonFlagsMask;
 
             if (SRCarbonToCocoaFlags(symbolicHotKeyFlags) == aFlags)
@@ -156,7 +152,7 @@
             }
         }
     }
-
+    CFRelease(symbolicHotKeys);
     return NO;
 }
 
