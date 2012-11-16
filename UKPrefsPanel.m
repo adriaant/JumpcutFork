@@ -30,6 +30,9 @@ Headers:
 
 #import "UKPrefsPanel.h"
 
+@interface UKPrefsPanel () <NSToolbarDelegate>
+
+@end
 
 @implementation UKPrefsPanel
 
@@ -294,15 +297,14 @@ This is simply a list of all tab view items in order.
 
 -(NSArray*) toolbarDefaultItemIdentifiers: (NSToolbar *) toolbar
 {
-	int					itemCount = [tabView numberOfTabViewItems],
-	x;
-	NSTabViewItem*		theItem = [tabView tabViewItemAtIndex:0];
+	int	itemCount = [tabView numberOfTabViewItems];
+	int x;
 	//NSMutableArray*	defaultItems = [NSMutableArray arrayWithObjects: [theItem identifier], NSToolbarSeparatorItemIdentifier, nil];
 	NSMutableArray*	defaultItems = [NSMutableArray array];
 	
 	for( x = 0; x < itemCount; x++ )
 	{
-		theItem = [tabView tabViewItemAtIndex:x];
+		NSTabViewItem* theItem = [tabView tabViewItemAtIndex:x];
 		
 		[defaultItems addObject: [theItem identifier]];
 	}

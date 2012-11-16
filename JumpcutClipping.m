@@ -30,23 +30,27 @@
 
 -(id) init
 {
-    [self initWithContents:@""
-          withType:@""
-          withDisplayLength:40];
+    self = [self initWithContents:@"" withType:@"" withDisplayLength:40];
+    if (self != nil)
+    {
+        
+    }
     return self;
 }
 
 -(id) initWithContents:(NSString *)contents withType:(NSString *)type withDisplayLength:(int)displayLength
 {
-    [super init];
-    clipContents = [[[NSString alloc] init] retain];
-    clipDisplayString = [[[NSString alloc] init] retain];
-    clipType = [[[NSString alloc] init] retain];
+    self = [super init];
+    if (self != nil)
+    {
+        clipContents = [[[NSString alloc] init] retain];
+        clipDisplayString = [[[NSString alloc] init] retain];
+        clipType = [[[NSString alloc] init] retain];
 
-    [self setContents:contents setDisplayLength:displayLength];
-    [self setType:type];
-    [self setHasName:false];
-    
+        [self setContents:contents setDisplayLength:displayLength];
+        [self setType:type];
+        [self setHasName:false];
+    }
     return self;
 }
 
@@ -122,7 +126,7 @@
 -(void) resetDisplayString
 {
     NSString *newDisplayString, *firstLineOfClipping;
-	unsigned start, lineEnd, contentsEnd;
+	NSUInteger start, lineEnd, contentsEnd;
 	NSRange startRange = NSMakeRange(0,0);
 	NSRange contentsRange;
 	// We're resetting the display string, so release the old one.

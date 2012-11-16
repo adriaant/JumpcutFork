@@ -9,8 +9,8 @@
 //  at <http://jumpcut.sourceforge.net/> for details.
 
 #import "AppController.h"
-#import "PTHotKey.h"
-#import "PTHotKeyCenter.h"
+#import "SGHotKey.h"
+#import "SGHotKeyCenter.h"
 #import "SRRecorderCell.h"
 //#import "UKLoginItemRegistry.h"
 #import "LaunchAtLoginController.h"
@@ -36,8 +36,9 @@
 {
 	if ( ! [[NSUserDefaults standardUserDefaults] floatForKey:@"lastRun"] || [[NSUserDefaults standardUserDefaults] floatForKey:@"lastRun"] < 0.6  ) {
 		// A decent starting value for the main hotkey is control-option-V
-		[mainRecorder setKeyCombo:SRMakeKeyCombo(9, 786432)];
-		
+        
+		[mainRecorder setKeyCombo:SRMakeKeyCombo(9, 786432) keyChars:nil keyCharsIgnoringModifiers:nil];
+        
 		// Something we'd really like is to transfer over info from 0.5x if we can get at it --
 		if ( [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"] ) {
 			// We need to pull out the relevant objects and stuff them in as proper preferences for the net.sf.Jumpcut domain
@@ -98,7 +99,7 @@
 	// Hotkey default value
 	if ( ! [[NSUserDefaults standardUserDefaults] floatForKey:@"lastRun"] || [[NSUserDefaults standardUserDefaults] floatForKey:@"lastRun"] < 0.6  ) {
 		// A decent starting value for the main hotkey is control-option-V
-		[mainRecorder setKeyCombo:SRMakeKeyCombo(9, 786432)];
+		[mainRecorder setKeyCombo:SRMakeKeyCombo(9, 786432) keyChars:nil keyCharsIgnoringModifiers:nil];
 		NSLog(@"Setting hotkey");
 		if ( [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"] ) {
 			NSLog(@"Pulling old preference");
@@ -106,7 +107,7 @@
 			if ( [[[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"] objectForKey:@"hotkeyModifiers"] != nil )
 			{
 				NSLog(@"Setting hotkey");
-				[mainRecorder setKeyCombo:SRMakeKeyCombo(9, [[[[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"] objectForKey:@"hotkeyModifiers"] intValue])];
+				[mainRecorder setKeyCombo:SRMakeKeyCombo(9, [[[[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"] objectForKey:@"hotkeyModifiers"] intValue]) keyChars:nil keyCharsIgnoringModifiers:nil];
 			}	
 		}
 	}
@@ -114,7 +115,7 @@
 	if ( [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"ShortcutRecorder mainHotkey"] ) {
 		[mainRecorder setKeyCombo:SRMakeKeyCombo([[[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"ShortcutRecorder mainHotkey"] objectForKey:@"keyCode"] intValue],
 												 [[[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"ShortcutRecorder mainHotkey"] objectForKey:@"modifierFlags"] intValue] )
-		];
+		 keyChars:nil keyCharsIgnoringModifiers:nil];
 	};
 	// Initialize the JumpcutStore
 	clippingStore = [[JumpcutStore alloc] initRemembering:[[NSUserDefaults standardUserDefaults] integerForKey:@"rememberNum"]
@@ -143,9 +144,9 @@
             statusItemWithLength:NSVariableStatusItemLength] retain];
     [statusItem setHighlightMode:YES];
 	if ( [[NSUserDefaults standardUserDefaults] integerForKey:@"menuIcon"] == 1 ) {
-		[statusItem setTitle:[NSString stringWithFormat:@"%C",0x2704]]; 
+		[statusItem setTitle:[NSString stringWithFormat:@"%C",(unsigned short)0x2704]];
 	} else if ( [[NSUserDefaults standardUserDefaults] integerForKey:@"menuIcon"] == 2 ) {
-		[statusItem setTitle:[NSString stringWithFormat:@"%C",0x2702]]; 
+		[statusItem setTitle:[NSString stringWithFormat:@"%C",(unsigned short)0x2702]];
 	} else {
 		[statusItem setImage:[NSImage imageNamed:@"net.sf.jumpcut.scissors_bw16.png"]];
     }
@@ -198,10 +199,10 @@
 {
 	if ([sender indexOfSelectedItem] == 1 ) {
 		[statusItem setImage:nil];
-		[statusItem setTitle:[NSString stringWithFormat:@"%C",0x2704]]; 
+		[statusItem setTitle:[NSString stringWithFormat:@"%C", (unsigned short)0x2704]]; 
 	} else if ( [sender indexOfSelectedItem] == 2 ) {
 		[statusItem setImage:nil];
-		[statusItem setTitle:[NSString stringWithFormat:@"%C",0x2702]]; 
+		[statusItem setTitle:[NSString stringWithFormat:@"%C", (unsigned short)0x2702]]; 
 	} else {
 		[statusItem setTitle:@""];
 		[statusItem setImage:[NSImage imageNamed:@"net.sf.jumpcut.scissors_bw16.png"]];
@@ -255,7 +256,7 @@
 //												 forKey:@"loadOnStartup"];
 //	}
     
-    LaunchAtLoginController* lalController = [[LaunchAtLoginController alloc] init];
+    LaunchAtLoginController* lalController = [[[LaunchAtLoginController alloc] init] autorelease];
     
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:[lalController willLaunchAtLogin]] forKey:@"loadOnStartup"];
 	
@@ -311,14 +312,25 @@
 	// On the other hand, this doesn't require scripting support, should work for Carbon, etc.
 	// Ideally, in the future, we will be able to tell from what environment JC was passed the trigger
 	// and have different behavior from each.
-{ 
+{    
 	NSNumber *keyCode = [srTransformer reverseTransformedValue:@"V"];
 	CGKeyCode veeCode = (CGKeyCode)[keyCode intValue];
-	CGPostKeyboardEvent( (CGCharCode)0, (CGKeyCode)55, true ); // Command down
-	CGPostKeyboardEvent( (CGCharCode)'v', veeCode, true ); // V down 
-	CGPostKeyboardEvent( (CGCharCode)'v', veeCode, false ); //  V up 
-	CGPostKeyboardEvent( (CGCharCode)0, (CGKeyCode)55, false ); // Command up
-} 
+
+    CGEventRef commandDownEvent = CGEventCreateKeyboardEvent(nil, (CGKeyCode)55, true);
+    CGEventRef veeDownEvent = CGEventCreateKeyboardEvent(nil, veeCode, true);
+    CGEventRef veeUpEvent = CGEventCreateKeyboardEvent(nil, veeCode, false);
+    CGEventRef commandUpEvent = CGEventCreateKeyboardEvent(nil, (CGKeyCode)55, false);
+
+    CFRelease(commandDownEvent);
+    CFRelease(veeDownEvent);
+    CFRelease(veeUpEvent);
+    CFRelease(commandUpEvent);
+    
+//	CGPostKeyboardEvent( (CGCharCode)0, (CGKeyCode)55, true ); // Command down
+//	CGPostKeyboardEvent( (CGCharCode)'v', veeCode, true ); // V down 
+//	CGPostKeyboardEvent( (CGCharCode)'v', veeCode, false ); //  V up 
+//	CGPostKeyboardEvent( (CGCharCode)0, (CGKeyCode)55, false ); // Command up
+}
 
 -(void)pollPB:(NSTimer *)timer
 {
@@ -429,7 +441,7 @@
 				break;
             default: // It's not a navigation/application-defined thing, so let's figure out what to do with it.
 				NSLog(@"PRESSED %d", pressed);
-				NSLog(@"CODE %d", [mainRecorder keyCombo].code);
+				NSLog(@"CODE %ld", (long)[mainRecorder keyCombo].code);
 				break;
 		}		
 	}
@@ -472,7 +484,7 @@
 }
 
 
-- (void)hitMainHotKey:(PTHotKey *)hotKey
+- (void)hitMainHotKey:(SGHotKey *)hotKey
 {
 	if ( ! isBezelDisplayed ) {
 		[NSApp activateIgnoringOtherApps:YES];
@@ -489,17 +501,17 @@
 {
 	if (mainHotKey != nil)
 	{
-		[[PTHotKeyCenter sharedCenter] unregisterHotKey:mainHotKey];
+		[[SGHotKeyCenter sharedCenter] unregisterHotKey:mainHotKey];
 		[mainHotKey release];
 		mainHotKey = nil;
 	}
-	mainHotKey = [[PTHotKey alloc] initWithIdentifier:@"mainHotKey"
-											   keyCombo:[PTKeyCombo keyComboWithKeyCode:[mainRecorder keyCombo].code
+	mainHotKey = [[SGHotKey alloc] initWithIdentifier:@"mainHotKey"
+											   keyCombo:[SGKeyCombo keyComboWithKeyCode:[mainRecorder keyCombo].code
 																			  modifiers:[mainRecorder cocoaToCarbonFlags: [mainRecorder keyCombo].flags]]];
 	[mainHotKey setName: @"Activate Jumpcut HotKey"]; //This is typically used by PTKeyComboPanel
 	[mainHotKey setTarget: self];
 	[mainHotKey setAction: @selector(hitMainHotKey:)];
-	[[PTHotKeyCenter sharedCenter] registerHotKey:mainHotKey];
+	[[SGHotKeyCenter sharedCenter] registerHotKey:mainHotKey];
 }
 
 -(IBAction)clearClippingList:(id)sender {
@@ -570,7 +582,7 @@
     if ( [self isValidClippingNumber:[NSNumber numberWithInt:count]] ) {
         return [clippingStore clippingContentsAtPosition:count];
     } else { // It fails -- we shouldn't be passed this, but...
-        NSLog(@"Asked for non-existant clipping count: %d");
+        NSLog(@"Asked for non-existant clipping count: %d", count);
         return @"";
     }
 }
@@ -604,7 +616,12 @@
 
 -(void) loadEngineFromPList
 {
-    NSString *path = [[NSString stringWithString:@"~/Library/Application Support/Jumpcut/JCEngine.save"] 					stringByExpandingTildeInPath];
+    NSString *name = @"JCEngine.save";
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString* applicationSupportDirectory = [paths objectAtIndex:0];
+    NSString* path = [applicationSupportDirectory stringByAppendingPathComponent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
+    path = [path stringByAppendingPathComponent:name];
+    
     NSDictionary *loadDict = [[NSDictionary alloc] initWithContentsOfFile:path];
     NSEnumerator *enumerator;
     NSDictionary *aSavedClipping;
@@ -672,18 +689,20 @@
     NSMutableArray *jcListArray = [NSMutableArray array];
     int i;
     BOOL isDir;
-    NSString *path;
-    path = [[NSString stringWithString:@"~/Library/Application Support/Jumpcut"] stringByExpandingTildeInPath];
+    
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString* applicationSupportDirectory = [paths objectAtIndex:0];
+    NSString* path = [applicationSupportDirectory stringByAppendingPathComponent:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
+    
     if ( ![[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] || ! isDir ) {
         NSLog(@"Creating Application Support directory");
-        [[NSFileManager defaultManager] createDirectoryAtPath:path
-												   attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-													   @"NSFileModificationDate", [NSNull null],
-													   @"NSFileOwnerAccountName", [NSNull null],
-													   @"NSFileGroupOwnerAccountName", [NSNull null],
-													   @"NSFilePosixPermissions", [NSNull null],
-													   @"NSFileExtensionsHidden", [NSNull null],
-													   nil]
+        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:NO attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                                                              @"NSFileModificationDate", [NSNull null],
+                                                                                                              @"NSFileOwnerAccountName", [NSNull null],
+                                                                                                              @"NSFileGroupOwnerAccountName", [NSNull null],
+                                                                                                              @"NSFilePosixPermissions", [NSNull null],
+                                                                                                              @"NSFileExtensionsHidden", [NSNull null],
+                                                                                                              nil] error:nil
 			];
     }
 	
@@ -757,7 +776,7 @@
         [self saveEngine] ;
     }
 	//Unregister our hot key (not required)
-	[[PTHotKeyCenter sharedCenter] unregisterHotKey: mainHotKey];
+	[[SGHotKeyCenter sharedCenter] unregisterHotKey: mainHotKey];
 	[mainHotKey release];
 	mainHotKey = nil;
 	[self hideBezel];

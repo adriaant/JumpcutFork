@@ -13,11 +13,11 @@
 #import "SRKeyCodeTransformer.h"
 #import "JumpcutStore.h"
 
-@class PTHotKey;
+@class SGHotKey;
 
 @interface AppController : NSObject {
     BezelWindow					*bezel;
-	PTHotKey					*mainHotKey;
+	SGHotKey					*mainHotKey;
 	IBOutlet SRRecorderControl	*mainRecorder;
 	IBOutlet NSPanel			*prefsPanel;
 	int							mainHotkeyModifiers;
@@ -69,7 +69,7 @@
 -(void) loadEngineFromPList;
 
 // Hotkey related
--(void)hitMainHotKey:(PTHotKey *)hotKey;
+-(void)hitMainHotKey:(SGHotKey *)hotKey;
 
 // Bezel related
 -(void) showBezel;

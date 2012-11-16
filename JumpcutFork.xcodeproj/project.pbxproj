@@ -7,6 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7EBCE1AD16567306009DCBF2 /* SGHotKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBCE1A516567306009DCBF2 /* SGHotKey.h */; };
+		7EBCE1AE16567306009DCBF2 /* SGHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCE1A616567306009DCBF2 /* SGHotKey.m */; };
+		7EBCE1AF16567306009DCBF2 /* SGHotKeyCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBCE1A716567306009DCBF2 /* SGHotKeyCenter.h */; };
+		7EBCE1B016567306009DCBF2 /* SGHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCE1A816567306009DCBF2 /* SGHotKeyCenter.m */; };
+		7EBCE1B116567306009DCBF2 /* SGKeyCodeTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBCE1A916567306009DCBF2 /* SGKeyCodeTranslator.h */; };
+		7EBCE1B216567306009DCBF2 /* SGKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCE1AA16567306009DCBF2 /* SGKeyCodeTranslator.m */; };
+		7EBCE1B316567306009DCBF2 /* SGKeyCombo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBCE1AB16567306009DCBF2 /* SGKeyCombo.h */; };
+		7EBCE1B416567306009DCBF2 /* SGKeyCombo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCE1AC16567306009DCBF2 /* SGKeyCombo.m */; };
+		7EBCE1DF165682FC009DCBF2 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EBCE1DE165682FC009DCBF2 /* Sparkle.framework */; };
+		7EBCE1ED165684D2009DCBF2 /* SRASCIIKeyCodeTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBCE1E1165684D2009DCBF2 /* SRASCIIKeyCodeTransformer.h */; };
+		7EBCE1EE165684D2009DCBF2 /* SRASCIIKeyCodeTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCE1E2165684D2009DCBF2 /* SRASCIIKeyCodeTransformer.m */; };
+		7EBCE1EF165684D2009DCBF2 /* SRCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBCE1E3165684D2009DCBF2 /* SRCommon.h */; };
+		7EBCE1F0165684D2009DCBF2 /* SRCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCE1E4165684D2009DCBF2 /* SRCommon.m */; };
+		7EBCE1F1165684D2009DCBF2 /* SRKeyCodeTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBCE1E5165684D2009DCBF2 /* SRKeyCodeTransformer.h */; };
+		7EBCE1F2165684D2009DCBF2 /* SRKeyCodeTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCE1E6165684D2009DCBF2 /* SRKeyCodeTransformer.m */; };
+		7EBCE1F3165684D2009DCBF2 /* SRRecorderCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBCE1E7165684D2009DCBF2 /* SRRecorderCell.h */; };
+		7EBCE1F4165684D2009DCBF2 /* SRRecorderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCE1E8165684D2009DCBF2 /* SRRecorderCell.m */; };
+		7EBCE1F5165684D2009DCBF2 /* SRRecorderControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBCE1E9165684D2009DCBF2 /* SRRecorderControl.h */; };
+		7EBCE1F6165684D2009DCBF2 /* SRRecorderControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCE1EA165684D2009DCBF2 /* SRRecorderControl.m */; };
+		7EBCE1F7165684D2009DCBF2 /* SRValidator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBCE1EB165684D2009DCBF2 /* SRValidator.h */; };
+		7EBCE1F8165684D2009DCBF2 /* SRValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCE1EC165684D2009DCBF2 /* SRValidator.m */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -16,28 +37,9 @@
 		AA058DC70A10512100DB7366 /* UKPrefsPanel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA058DC50A10512100DB7366 /* UKPrefsPanel.h */; };
 		AA058DC80A10512100DB7366 /* UKPrefsPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA058DC60A10512100DB7366 /* UKPrefsPanel.m */; };
 		AA2640B90A37D2E600591C20 /* jumpcut.icns in Resources */ = {isa = PBXBuildFile; fileRef = AA2640B80A37D2E600591C20 /* jumpcut.icns */; };
-		AA6D1BDD0DAD68D800734235 /* SRValidator.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D1BD10DAD68D800734235 /* SRValidator.h */; };
-		AA6D1BDE0DAD68D800734235 /* CTGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D1BD20DAD68D800734235 /* CTGradient.m */; };
-		AA6D1BDF0DAD68D800734235 /* SRCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D1BD30DAD68D800734235 /* SRCommon.h */; };
-		AA6D1BE00DAD68D800734235 /* SRRecorderCell.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D1BD40DAD68D800734235 /* SRRecorderCell.h */; };
-		AA6D1BE10DAD68D800734235 /* SRRecorderControl.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D1BD50DAD68D800734235 /* SRRecorderControl.h */; };
-		AA6D1BE20DAD68D800734235 /* SRRecorderControl.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D1BD60DAD68D800734235 /* SRRecorderControl.m */; };
-		AA6D1BE30DAD68D800734235 /* SRKeyCodeTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D1BD70DAD68D800734235 /* SRKeyCodeTransformer.m */; };
-		AA6D1BE40DAD68D800734235 /* SRCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D1BD80DAD68D800734235 /* SRCommon.m */; };
-		AA6D1BE50DAD68D800734235 /* SRKeyCodeTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D1BD90DAD68D800734235 /* SRKeyCodeTransformer.h */; };
-		AA6D1BE60DAD68D800734235 /* SRRecorderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D1BDA0DAD68D800734235 /* SRRecorderCell.m */; };
-		AA6D1BE70DAD68D800734235 /* CTGradient.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D1BDB0DAD68D800734235 /* CTGradient.h */; };
-		AA6D1BE80DAD68D800734235 /* SRValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D1BDC0DAD68D800734235 /* SRValidator.m */; };
-		AA730D100DC3D47600F53350 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA730D0F0DC3D47600F53350 /* Sparkle.framework */; };
-		AA730D240DC3D48200F53350 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA730D0F0DC3D47600F53350 /* Sparkle.framework */; };
 		AABE486809FF1DF800A6A239 /* BezelWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE486309FF1DF800A6A239 /* BezelWindow.m */; };
 		AABE486909FF1DF800A6A239 /* RoundRecTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE486509FF1DF800A6A239 /* RoundRecTextField.m */; };
 		AABE486A09FF1DF800A6A239 /* RoundRecBezierPath.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE486709FF1DF800A6A239 /* RoundRecBezierPath.m */; };
-		AABE493309FF21BE00A6A239 /* PTHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE492909FF21BE00A6A239 /* PTHotKey.m */; };
-		AABE493409FF21BE00A6A239 /* PTHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE492B09FF21BE00A6A239 /* PTHotKeyCenter.m */; };
-		AABE493509FF21BE00A6A239 /* PTKeyBroadcaster.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE492D09FF21BE00A6A239 /* PTKeyBroadcaster.m */; };
-		AABE493609FF21BE00A6A239 /* PTKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE492F09FF21BE00A6A239 /* PTKeyCodeTranslator.m */; };
-		AABE493709FF21BE00A6A239 /* PTKeyCombo.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE493109FF21BE00A6A239 /* PTKeyCombo.m */; };
 		AABE496A09FF227E00A6A239 /* JumpcutClipping.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE496409FF227E00A6A239 /* JumpcutClipping.m */; };
 		AABE496B09FF227E00A6A239 /* JumpcutStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE496609FF227E00A6A239 /* JumpcutStore.m */; };
 		AABE497C09FF9CD000A6A239 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE497B09FF9CD000A6A239 /* AppController.m */; };
@@ -79,7 +81,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AA730D240DC3D48200F53350 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +95,27 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Jumpcut_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Jumpcut_Prefix.pch; sourceTree = "<group>"; };
+		7EBCE1A516567306009DCBF2 /* SGHotKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGHotKey.h; sourceTree = "<group>"; };
+		7EBCE1A616567306009DCBF2 /* SGHotKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGHotKey.m; sourceTree = "<group>"; };
+		7EBCE1A716567306009DCBF2 /* SGHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGHotKeyCenter.h; sourceTree = "<group>"; };
+		7EBCE1A816567306009DCBF2 /* SGHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGHotKeyCenter.m; sourceTree = "<group>"; };
+		7EBCE1A916567306009DCBF2 /* SGKeyCodeTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGKeyCodeTranslator.h; sourceTree = "<group>"; };
+		7EBCE1AA16567306009DCBF2 /* SGKeyCodeTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGKeyCodeTranslator.m; sourceTree = "<group>"; };
+		7EBCE1AB16567306009DCBF2 /* SGKeyCombo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGKeyCombo.h; sourceTree = "<group>"; };
+		7EBCE1AC16567306009DCBF2 /* SGKeyCombo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGKeyCombo.m; sourceTree = "<group>"; };
+		7EBCE1DE165682FC009DCBF2 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		7EBCE1E1165684D2009DCBF2 /* SRASCIIKeyCodeTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRASCIIKeyCodeTransformer.h; sourceTree = "<group>"; };
+		7EBCE1E2165684D2009DCBF2 /* SRASCIIKeyCodeTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRASCIIKeyCodeTransformer.m; sourceTree = "<group>"; };
+		7EBCE1E3165684D2009DCBF2 /* SRCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRCommon.h; sourceTree = "<group>"; };
+		7EBCE1E4165684D2009DCBF2 /* SRCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRCommon.m; sourceTree = "<group>"; };
+		7EBCE1E5165684D2009DCBF2 /* SRKeyCodeTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRKeyCodeTransformer.h; sourceTree = "<group>"; };
+		7EBCE1E6165684D2009DCBF2 /* SRKeyCodeTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRKeyCodeTransformer.m; sourceTree = "<group>"; };
+		7EBCE1E7165684D2009DCBF2 /* SRRecorderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRRecorderCell.h; sourceTree = "<group>"; };
+		7EBCE1E8165684D2009DCBF2 /* SRRecorderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRRecorderCell.m; sourceTree = "<group>"; };
+		7EBCE1E9165684D2009DCBF2 /* SRRecorderControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRRecorderControl.h; sourceTree = "<group>"; };
+		7EBCE1EA165684D2009DCBF2 /* SRRecorderControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRRecorderControl.m; sourceTree = "<group>"; };
+		7EBCE1EB165684D2009DCBF2 /* SRValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRValidator.h; sourceTree = "<group>"; };
+		7EBCE1EC165684D2009DCBF2 /* SRValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRValidator.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* JumpcutFork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JumpcutFork.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EA150C114371A5F0069E71B /* LaunchAtLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchAtLoginController.h; sourceTree = "<group>"; };
@@ -101,35 +123,12 @@
 		AA058DC50A10512100DB7366 /* UKPrefsPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UKPrefsPanel.h; sourceTree = "<group>"; };
 		AA058DC60A10512100DB7366 /* UKPrefsPanel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = UKPrefsPanel.m; sourceTree = "<group>"; };
 		AA2640B80A37D2E600591C20 /* jumpcut.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = jumpcut.icns; sourceTree = "<group>"; };
-		AA6D1BD10DAD68D800734235 /* SRValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRValidator.h; sourceTree = "<group>"; };
-		AA6D1BD20DAD68D800734235 /* CTGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTGradient.m; sourceTree = "<group>"; };
-		AA6D1BD30DAD68D800734235 /* SRCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRCommon.h; sourceTree = "<group>"; };
-		AA6D1BD40DAD68D800734235 /* SRRecorderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRRecorderCell.h; sourceTree = "<group>"; };
-		AA6D1BD50DAD68D800734235 /* SRRecorderControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRRecorderControl.h; sourceTree = "<group>"; };
-		AA6D1BD60DAD68D800734235 /* SRRecorderControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRRecorderControl.m; sourceTree = "<group>"; };
-		AA6D1BD70DAD68D800734235 /* SRKeyCodeTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRKeyCodeTransformer.m; sourceTree = "<group>"; };
-		AA6D1BD80DAD68D800734235 /* SRCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRCommon.m; sourceTree = "<group>"; };
-		AA6D1BD90DAD68D800734235 /* SRKeyCodeTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRKeyCodeTransformer.h; sourceTree = "<group>"; };
-		AA6D1BDA0DAD68D800734235 /* SRRecorderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRRecorderCell.m; sourceTree = "<group>"; };
-		AA6D1BDB0DAD68D800734235 /* CTGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTGradient.h; sourceTree = "<group>"; };
-		AA6D1BDC0DAD68D800734235 /* SRValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRValidator.m; sourceTree = "<group>"; };
-		AA730D0F0DC3D47600F53350 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		AABE486209FF1DF800A6A239 /* BezelWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BezelWindow.h; sourceTree = "<group>"; };
 		AABE486309FF1DF800A6A239 /* BezelWindow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BezelWindow.m; sourceTree = "<group>"; };
 		AABE486409FF1DF800A6A239 /* RoundRecTextField.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RoundRecTextField.h; sourceTree = "<group>"; };
 		AABE486509FF1DF800A6A239 /* RoundRecTextField.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RoundRecTextField.m; sourceTree = "<group>"; };
 		AABE486609FF1DF800A6A239 /* RoundRecBezierPath.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RoundRecBezierPath.h; sourceTree = "<group>"; };
 		AABE486709FF1DF800A6A239 /* RoundRecBezierPath.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RoundRecBezierPath.m; sourceTree = "<group>"; };
-		AABE492809FF21BE00A6A239 /* PTHotKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTHotKey.h; path = src/PTHotKey.h; sourceTree = "<group>"; };
-		AABE492909FF21BE00A6A239 /* PTHotKey.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTHotKey.m; path = src/PTHotKey.m; sourceTree = "<group>"; };
-		AABE492A09FF21BE00A6A239 /* PTHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTHotKeyCenter.h; path = src/PTHotKeyCenter.h; sourceTree = "<group>"; };
-		AABE492B09FF21BE00A6A239 /* PTHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTHotKeyCenter.m; path = src/PTHotKeyCenter.m; sourceTree = "<group>"; };
-		AABE492C09FF21BE00A6A239 /* PTKeyBroadcaster.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyBroadcaster.h; path = src/PTKeyBroadcaster.h; sourceTree = "<group>"; };
-		AABE492D09FF21BE00A6A239 /* PTKeyBroadcaster.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyBroadcaster.m; path = src/PTKeyBroadcaster.m; sourceTree = "<group>"; };
-		AABE492E09FF21BE00A6A239 /* PTKeyCodeTranslator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyCodeTranslator.h; path = src/PTKeyCodeTranslator.h; sourceTree = "<group>"; };
-		AABE492F09FF21BE00A6A239 /* PTKeyCodeTranslator.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyCodeTranslator.m; path = src/PTKeyCodeTranslator.m; sourceTree = "<group>"; };
-		AABE493009FF21BE00A6A239 /* PTKeyCombo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyCombo.h; path = src/PTKeyCombo.h; sourceTree = "<group>"; };
-		AABE493109FF21BE00A6A239 /* PTKeyCombo.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyCombo.m; path = src/PTKeyCombo.m; sourceTree = "<group>"; };
 		AABE496309FF227E00A6A239 /* JumpcutClipping.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JumpcutClipping.h; sourceTree = "<group>"; };
 		AABE496409FF227E00A6A239 /* JumpcutClipping.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JumpcutClipping.m; sourceTree = "<group>"; };
 		AABE496509FF227E00A6A239 /* JumpcutStore.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JumpcutStore.h; sourceTree = "<group>"; };
@@ -155,7 +154,7 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				AAFAC85F0A1BD9DD00DC6025 /* Carbon.framework in Frameworks */,
-				AA730D100DC3D47600F53350 /* Sparkle.framework in Frameworks */,
+				7EBCE1DF165682FC009DCBF2 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,10 +168,10 @@
 				AABE497B09FF9CD000A6A239 /* AppController.m */,
 				AABE496009FF227E00A6A239 /* JumpcutEngine */,
 				AA0875E60B800F2600C1F175 /* LoginItem */,
+				7EBCE1E0165684D2009DCBF2 /* SRRecorder */,
 				AABE491909FF214900A6A239 /* UI */,
+				7EBCE1A416567306009DCBF2 /* SGHotKeysLib */,
 				AAECDC8B0A03C9DC007D377A /* UKPrefsPanel */,
-				AABE492609FF21BE00A6A239 /* PTHotKeysLib */,
-				AABE48F109FF203300A6A239 /* ShortcutRecorder */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -180,7 +179,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AA730D0F0DC3D47600F53350 /* Sparkle.framework */,
+				7EBCE1DE165682FC009DCBF2 /* Sparkle.framework */,
 				AAFAC84A0A1BD9DD00DC6025 /* Carbon.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
@@ -255,6 +254,40 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7EBCE1A416567306009DCBF2 /* SGHotKeysLib */ = {
+			isa = PBXGroup;
+			children = (
+				7EBCE1A516567306009DCBF2 /* SGHotKey.h */,
+				7EBCE1A616567306009DCBF2 /* SGHotKey.m */,
+				7EBCE1A716567306009DCBF2 /* SGHotKeyCenter.h */,
+				7EBCE1A816567306009DCBF2 /* SGHotKeyCenter.m */,
+				7EBCE1A916567306009DCBF2 /* SGKeyCodeTranslator.h */,
+				7EBCE1AA16567306009DCBF2 /* SGKeyCodeTranslator.m */,
+				7EBCE1AB16567306009DCBF2 /* SGKeyCombo.h */,
+				7EBCE1AC16567306009DCBF2 /* SGKeyCombo.m */,
+			);
+			path = SGHotKeysLib;
+			sourceTree = "<group>";
+		};
+		7EBCE1E0165684D2009DCBF2 /* SRRecorder */ = {
+			isa = PBXGroup;
+			children = (
+				7EBCE1E1165684D2009DCBF2 /* SRASCIIKeyCodeTransformer.h */,
+				7EBCE1E2165684D2009DCBF2 /* SRASCIIKeyCodeTransformer.m */,
+				7EBCE1E3165684D2009DCBF2 /* SRCommon.h */,
+				7EBCE1E4165684D2009DCBF2 /* SRCommon.m */,
+				7EBCE1E5165684D2009DCBF2 /* SRKeyCodeTransformer.h */,
+				7EBCE1E6165684D2009DCBF2 /* SRKeyCodeTransformer.m */,
+				7EBCE1E7165684D2009DCBF2 /* SRRecorderCell.h */,
+				7EBCE1E8165684D2009DCBF2 /* SRRecorderCell.m */,
+				7EBCE1E9165684D2009DCBF2 /* SRRecorderControl.h */,
+				7EBCE1EA165684D2009DCBF2 /* SRRecorderControl.m */,
+				7EBCE1EB165684D2009DCBF2 /* SRValidator.h */,
+				7EBCE1EC165684D2009DCBF2 /* SRValidator.m */,
+			);
+			path = SRRecorder;
+			sourceTree = "<group>";
+		};
 		AA0875E60B800F2600C1F175 /* LoginItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -262,25 +295,6 @@
 				8EA150C214371A5F0069E71B /* LaunchAtLoginController.m */,
 			);
 			name = LoginItem;
-			sourceTree = "<group>";
-		};
-		AABE48F109FF203300A6A239 /* ShortcutRecorder */ = {
-			isa = PBXGroup;
-			children = (
-				AA6D1BDB0DAD68D800734235 /* CTGradient.h */,
-				AA6D1BD20DAD68D800734235 /* CTGradient.m */,
-				AA6D1BD30DAD68D800734235 /* SRCommon.h */,
-				AA6D1BD80DAD68D800734235 /* SRCommon.m */,
-				AA6D1BD40DAD68D800734235 /* SRRecorderCell.h */,
-				AA6D1BDA0DAD68D800734235 /* SRRecorderCell.m */,
-				AA6D1BD50DAD68D800734235 /* SRRecorderControl.h */,
-				AA6D1BD60DAD68D800734235 /* SRRecorderControl.m */,
-				AA6D1BD90DAD68D800734235 /* SRKeyCodeTransformer.h */,
-				AA6D1BD70DAD68D800734235 /* SRKeyCodeTransformer.m */,
-				AA6D1BD10DAD68D800734235 /* SRValidator.h */,
-				AA6D1BDC0DAD68D800734235 /* SRValidator.m */,
-			);
-			name = ShortcutRecorder;
 			sourceTree = "<group>";
 		};
 		AABE491909FF214900A6A239 /* UI */ = {
@@ -294,23 +308,6 @@
 				AABE486709FF1DF800A6A239 /* RoundRecBezierPath.m */,
 			);
 			name = UI;
-			sourceTree = "<group>";
-		};
-		AABE492609FF21BE00A6A239 /* PTHotKeysLib */ = {
-			isa = PBXGroup;
-			children = (
-				AABE492809FF21BE00A6A239 /* PTHotKey.h */,
-				AABE492909FF21BE00A6A239 /* PTHotKey.m */,
-				AABE492A09FF21BE00A6A239 /* PTHotKeyCenter.h */,
-				AABE492B09FF21BE00A6A239 /* PTHotKeyCenter.m */,
-				AABE492C09FF21BE00A6A239 /* PTKeyBroadcaster.h */,
-				AABE492D09FF21BE00A6A239 /* PTKeyBroadcaster.m */,
-				AABE492E09FF21BE00A6A239 /* PTKeyCodeTranslator.h */,
-				AABE492F09FF21BE00A6A239 /* PTKeyCodeTranslator.m */,
-				AABE493009FF21BE00A6A239 /* PTKeyCombo.h */,
-				AABE493109FF21BE00A6A239 /* PTKeyCombo.m */,
-			);
-			path = PTHotKeysLib;
 			sourceTree = "<group>";
 		};
 		AABE496009FF227E00A6A239 /* JumpcutEngine */ = {
@@ -340,13 +337,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA6D1BDD0DAD68D800734235 /* SRValidator.h in Headers */,
-				AA6D1BDF0DAD68D800734235 /* SRCommon.h in Headers */,
-				AA6D1BE00DAD68D800734235 /* SRRecorderCell.h in Headers */,
-				AA6D1BE10DAD68D800734235 /* SRRecorderControl.h in Headers */,
-				AA6D1BE50DAD68D800734235 /* SRKeyCodeTransformer.h in Headers */,
-				AA6D1BE70DAD68D800734235 /* CTGradient.h in Headers */,
 				8EA150C314371A5F0069E71B /* LaunchAtLoginController.h in Headers */,
+				7EBCE1AD16567306009DCBF2 /* SGHotKey.h in Headers */,
+				7EBCE1AF16567306009DCBF2 /* SGHotKeyCenter.h in Headers */,
+				7EBCE1B116567306009DCBF2 /* SGKeyCodeTranslator.h in Headers */,
+				7EBCE1B316567306009DCBF2 /* SGKeyCombo.h in Headers */,
+				7EBCE1ED165684D2009DCBF2 /* SRASCIIKeyCodeTransformer.h in Headers */,
+				7EBCE1EF165684D2009DCBF2 /* SRCommon.h in Headers */,
+				7EBCE1F1165684D2009DCBF2 /* SRKeyCodeTransformer.h in Headers */,
+				7EBCE1F3165684D2009DCBF2 /* SRRecorderCell.h in Headers */,
+				7EBCE1F5165684D2009DCBF2 /* SRRecorderControl.h in Headers */,
+				7EBCE1F7165684D2009DCBF2 /* SRValidator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,22 +428,21 @@
 				AABE486809FF1DF800A6A239 /* BezelWindow.m in Sources */,
 				AABE486909FF1DF800A6A239 /* RoundRecTextField.m in Sources */,
 				AABE486A09FF1DF800A6A239 /* RoundRecBezierPath.m in Sources */,
-				AABE493309FF21BE00A6A239 /* PTHotKey.m in Sources */,
-				AABE493409FF21BE00A6A239 /* PTHotKeyCenter.m in Sources */,
-				AABE493509FF21BE00A6A239 /* PTKeyBroadcaster.m in Sources */,
-				AABE493609FF21BE00A6A239 /* PTKeyCodeTranslator.m in Sources */,
-				AABE493709FF21BE00A6A239 /* PTKeyCombo.m in Sources */,
 				AABE496A09FF227E00A6A239 /* JumpcutClipping.m in Sources */,
 				AABE496B09FF227E00A6A239 /* JumpcutStore.m in Sources */,
 				AA058DC80A10512100DB7366 /* UKPrefsPanel.m in Sources */,
 				AABE497C09FF9CD000A6A239 /* AppController.m in Sources */,
-				AA6D1BDE0DAD68D800734235 /* CTGradient.m in Sources */,
-				AA6D1BE20DAD68D800734235 /* SRRecorderControl.m in Sources */,
-				AA6D1BE30DAD68D800734235 /* SRKeyCodeTransformer.m in Sources */,
-				AA6D1BE40DAD68D800734235 /* SRCommon.m in Sources */,
-				AA6D1BE60DAD68D800734235 /* SRRecorderCell.m in Sources */,
-				AA6D1BE80DAD68D800734235 /* SRValidator.m in Sources */,
 				8EA150C414371A5F0069E71B /* LaunchAtLoginController.m in Sources */,
+				7EBCE1AE16567306009DCBF2 /* SGHotKey.m in Sources */,
+				7EBCE1B016567306009DCBF2 /* SGHotKeyCenter.m in Sources */,
+				7EBCE1B216567306009DCBF2 /* SGKeyCodeTranslator.m in Sources */,
+				7EBCE1B416567306009DCBF2 /* SGKeyCombo.m in Sources */,
+				7EBCE1EE165684D2009DCBF2 /* SRASCIIKeyCodeTransformer.m in Sources */,
+				7EBCE1F0165684D2009DCBF2 /* SRCommon.m in Sources */,
+				7EBCE1F2165684D2009DCBF2 /* SRKeyCodeTransformer.m in Sources */,
+				7EBCE1F4165684D2009DCBF2 /* SRRecorderCell.m in Sources */,
+				7EBCE1F6165684D2009DCBF2 /* SRRecorderControl.m in Sources */,
+				7EBCE1F8165684D2009DCBF2 /* SRValidator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,10 +491,8 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					"$(SRCROOT)",
@@ -517,8 +515,11 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -531,8 +532,11 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};

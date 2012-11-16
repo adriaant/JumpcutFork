@@ -40,11 +40,14 @@
         displaying:(int)nowDisplaying
         withDisplayLength:(int)displayLength
 {
-    [super init];
-    jcList = [[NSMutableArray alloc] init];
-    [self setRememberNum:nowRemembering];
-    [self setDisplayNum:nowDisplaying];
-    [self setDisplayLen:displayLength];
+    self = [super init];
+    if (self != nil)
+    {
+        jcList = [[NSMutableArray alloc] init];
+        [self setRememberNum:nowRemembering];
+        [self setDisplayNum:nowDisplaying];
+        [self setDisplayLen:displayLength];
+    }
     return self;
 }
 
