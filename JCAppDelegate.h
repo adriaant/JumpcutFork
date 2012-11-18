@@ -15,7 +15,8 @@
 
 @class SGHotKey;
 
-@interface AppController : NSObject {
+@interface JCAppDelegate : NSObject <NSApplicationDelegate>
+{
     BezelWindow					*bezel;
 	SGHotKey					*mainHotKey;
 	IBOutlet SRRecorderControl	*mainRecorder;

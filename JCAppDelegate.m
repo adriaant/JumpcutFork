@@ -8,103 +8,26 @@
 //  This code is open-source software subject to the MIT License; see the homepage
 //  at <http://jumpcut.sourceforge.net/> for details.
 
-#import "AppController.h"
+#import "JCAppDelegate.h"
 #import "SGHotKey.h"
 #import "SGHotKeyCenter.h"
 #import "SRRecorderCell.h"
-//#import "UKLoginItemRegistry.h"
 #import "LaunchAtLoginController.h"
+#import "JCContext.h"
 
 
 #define _DISPLENGTH 40
 
-//enum {
-//    NSWindowCollectionBehaviorDefault = 0,
-//    NSWindowCollectionBehaviorCanJoinAllSpaces = 1 << 0,
-//    NSWindowCollectionBehaviorMoveToActiveSpace = 1 << 1
-//};
+@interface JCAppDelegate ()
 
-//typedef unsigned NSWindowCollectionBehavior;
+@property (retain) JCContext* applicationContext;
 
-@interface NSWindow (NSWindowCollectionBehavior)
-- (void)setCollectionBehavior:(NSWindowCollectionBehavior)behavior;
 @end
 
-@implementation AppController
-
-- (id)init
-{
-	if ( ! [[NSUserDefaults standardUserDefaults] floatForKey:@"lastRun"] || [[NSUserDefaults standardUserDefaults] floatForKey:@"lastRun"] < 0.6  ) {
-		// A decent starting value for the main hotkey is control-option-V
-        
-		[mainRecorder setKeyCombo:SRMakeKeyCombo(9, 786432) keyChars:nil keyCharsIgnoringModifiers:nil];
-        
-		// Something we'd really like is to transfer over info from 0.5x if we can get at it --
-		if ( [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"] ) {
-			// We need to pull out the relevant objects and stuff them in as proper preferences for the net.sf.Jumpcut domain
-			if ( [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"][@"displayNum"] != nil )
-			{
-				[[NSUserDefaults standardUserDefaults] setValue:[[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"][@"displayNum"]
-														 forKey:@"displayNum"];
-			}
-			if ( [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"][@"savePreference"] != nil )
-			{
-				if ( [[[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"][@"savePreference"] isEqual:@"onChange"] )
-				{
-					[[NSUserDefaults standardUserDefaults] setValue:@2
-															 forKey:@"savePreference"];
-				} 
-				else if ( [[[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"][@"savePreference"] isEqual:@"onExit"] )
-				{
-					[[NSUserDefaults standardUserDefaults] setValue:@1
-															 forKey:@"savePreference"];
-				}
-				else
-				{
-					[[NSUserDefaults standardUserDefaults] setValue:@0
-															 forKey:@"savePreference"];
-				} // End save preference test
-			} // End savePreference test
-		} // End if/then that deals with 0.5x preferences
-	} // End new-to-version check
-	// If we don't have preferences defined, let's set some default values:
-	[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"displayNum": @15,
-		@"ShortcutRecorder mainHotkey": [NSDictionary dictionaryWithObjects:@[@9,@786432] forKeys:@[@"keyCode",@"modifierFlags"]],
-		@"rememberNum": @40,
-		@"savePreference": @1,
-		@"menuIcon": @0,
-		@"bezelAlpha": @.25f,
-		@"stickyBezel": @NO,
-		@"wraparoundBezel": @NO,
-		@"launchOnStartup": @NO,
-		@"menuSelectionPastes": @YES}
-		];
-	return [super init];
-}
+@implementation JCAppDelegate
 
 - (void)awakeFromNib
 {
-	// Hotkey default value
-	if ( ! [[NSUserDefaults standardUserDefaults] floatForKey:@"lastRun"] || [[NSUserDefaults standardUserDefaults] floatForKey:@"lastRun"] < 0.6  ) {
-		// A decent starting value for the main hotkey is control-option-V
-		[mainRecorder setKeyCombo:SRMakeKeyCombo(9, 786432) keyChars:nil keyCharsIgnoringModifiers:nil];
-		NSLog(@"Setting hotkey");
-		if ( [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"] ) {
-			NSLog(@"Pulling old preference");
-			// We need to pull out the relevant objects and stuff them in as proper preferences for the net.sf.Jumpcut domain
-			if ( [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"][@"hotkeyModifiers"] != nil )
-			{
-				NSLog(@"Setting hotkey");
-				[mainRecorder setKeyCombo:SRMakeKeyCombo(9, [[[NSUserDefaults standardUserDefaults] persistentDomainForName:@"Jumpcut"][@"hotkeyModifiers"] intValue]) keyChars:nil keyCharsIgnoringModifiers:nil];
-			}	
-		}
-	}
-	// We no longer get autosave from ShortcutRecorder, so let's set the recorder by hand
-	if ( [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"ShortcutRecorder mainHotkey"] ) {
-		[mainRecorder setKeyCombo:SRMakeKeyCombo([[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"ShortcutRecorder mainHotkey"][@"keyCode"] intValue],
-												 [[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"ShortcutRecorder mainHotkey"][@"modifierFlags"] intValue] )
-		 keyChars:nil keyCharsIgnoringModifiers:nil];
-	};
 	// Initialize the JumpcutStore
 	clippingStore = [[JumpcutStore alloc] initRemembering:[[NSUserDefaults standardUserDefaults] integerForKey:@"rememberNum"]
 											   displaying:[[NSUserDefaults standardUserDefaults] integerForKey:@"displayNum"]
@@ -125,19 +48,13 @@
 	// Create our pasteboard interface
     jcPasteboard = [NSPasteboard generalPasteboard];
     [jcPasteboard declareTypes:@[NSStringPboardType] owner:nil];
-    pbCount = [NSNumber numberWithInt:[jcPasteboard changeCount]];
+    pbCount = @(jcPasteboard.changeCount);
 
 	// Build the statusbar menu
     statusItem = [[NSStatusBar systemStatusBar]
             statusItemWithLength:NSVariableStatusItemLength];
     [statusItem setHighlightMode:YES];
-	if ( [[NSUserDefaults standardUserDefaults] integerForKey:@"menuIcon"] == 1 ) {
-		[statusItem setTitle:[NSString stringWithFormat:@"%C",(unsigned short)0x2704]];
-	} else if ( [[NSUserDefaults standardUserDefaults] integerForKey:@"menuIcon"] == 2 ) {
-		[statusItem setTitle:[NSString stringWithFormat:@"%C",(unsigned short)0x2702]];
-	} else {
-		[statusItem setImage:[NSImage imageNamed:@"net.sf.jumpcut.scissors_bw16.png"]];
-    }
+    [statusItem setImage:[NSImage imageNamed:@"net.sf.jumpcut.scissors_bw16.png"]];
 	[statusItem setMenu:jcMenu];
     [statusItem setEnabled:YES];
 	
@@ -325,7 +242,7 @@
     if ( [pbCount intValue] != [jcPasteboard changeCount] ) {
         // Reload pbCount with the current changeCount
         // Probably poor coding technique, but pollPB should be the only thing messing with pbCount, so it should be okay
-        pbCount = [NSNumber numberWithInt:[jcPasteboard changeCount]];
+        pbCount = @(jcPasteboard.changeCount);
         if ( type != nil ) {
 			NSString *contents = [jcPasteboard stringForType:type];
 			if ( contents == nil ) {
@@ -437,6 +354,7 @@
 {
 	//Create our hot key
 	[self toggleMainHotKey:[NSNull null]];
+    self.applicationContext = [JCContext sharedInstance];
 }
 
 - (void) showBezel
@@ -592,7 +510,7 @@
     [jcPasteboard declareTypes:pbTypes owner:NULL];
 	
     [jcPasteboard setString:pbFullText forType:@"NSStringPboardType"];
-    [self setPBBlockCount:[NSNumber numberWithInt:[jcPasteboard changeCount]]];
+    self.PBBlockCount = @(jcPasteboard.changeCount);
     return true;
 }
 
@@ -687,9 +605,9 @@
 	
     saveDict = [NSMutableDictionary dictionaryWithCapacity:3];
     saveDict[@"version"] = @"0.6";
-    saveDict[@"rememberNum"] = [NSNumber numberWithInt:[[NSUserDefaults standardUserDefaults] integerForKey:@"rememberNum"]];
+    saveDict[@"rememberNum"] = @([[NSUserDefaults standardUserDefaults] integerForKey:@"rememberNum"]);
     saveDict[@"displayLen"] = @_DISPLENGTH;
-    saveDict[@"displayNum"] = [NSNumber numberWithInt:[[NSUserDefaults standardUserDefaults] integerForKey:@"displayNum"]];
+    saveDict[@"displayNum"] = @([[NSUserDefaults standardUserDefaults] integerForKey:@"displayNum"]);
     for ( i = 0 ; i < [clippingStore jcListCount]; i++) {
 		[jcListArray addObject:@{@"Contents": [clippingStore clippingContentsAtPosition:i],
 			@"Type": [clippingStore clippingTypeAtPosition:i],
@@ -710,7 +628,7 @@
 	if (aRecorder == mainRecorder)
 	{
 		[[NSUserDefaults standardUserDefaults] setObject:
-			[NSDictionary dictionaryWithObjects:@[[NSNumber numberWithInt:[mainRecorder keyCombo].code],[NSNumber numberWithInt:[mainRecorder keyCombo].flags]] forKeys:@[@"keyCode",@"modifierFlags"]]
+			[NSDictionary dictionaryWithObjects:@[@([mainRecorder keyCombo].code),@([mainRecorder keyCombo].flags)] forKeys:@[@"keyCode",@"modifierFlags"]]
 		forKey:@"ShortcutRecorder mainHotkey"];
 	}
 }

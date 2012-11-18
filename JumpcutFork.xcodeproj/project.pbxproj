@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A2407AB165932E600B6DDBC /* JCDefaultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2407A9165932E600B6DDBC /* JCDefaultsController.h */; };
+		0A2407AC165932E600B6DDBC /* JCDefaultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2407AA165932E600B6DDBC /* JCDefaultsController.m */; };
+		0A2407AE16593C3500B6DDBC /* JCDefaultsController_setters.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2407AD16593C3500B6DDBC /* JCDefaultsController_setters.h */; };
+		0A2407B116593D7B00B6DDBC /* JCContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2407AF16593D7B00B6DDBC /* JCContext.h */; };
+		0A2407B216593D7B00B6DDBC /* JCContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2407B016593D7B00B6DDBC /* JCContext.m */; };
 		7EBCE1AD16567306009DCBF2 /* SGHotKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBCE1A516567306009DCBF2 /* SGHotKey.h */; };
 		7EBCE1AE16567306009DCBF2 /* SGHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EBCE1A616567306009DCBF2 /* SGHotKey.m */; };
 		7EBCE1AF16567306009DCBF2 /* SGHotKeyCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EBCE1A716567306009DCBF2 /* SGHotKeyCenter.h */; };
@@ -42,7 +47,7 @@
 		AABE486A09FF1DF800A6A239 /* RoundRecBezierPath.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE486709FF1DF800A6A239 /* RoundRecBezierPath.m */; };
 		AABE496A09FF227E00A6A239 /* JumpcutClipping.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE496409FF227E00A6A239 /* JumpcutClipping.m */; };
 		AABE496B09FF227E00A6A239 /* JumpcutStore.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE496609FF227E00A6A239 /* JumpcutStore.m */; };
-		AABE497C09FF9CD000A6A239 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE497B09FF9CD000A6A239 /* AppController.m */; };
+		AABE497C09FF9CD000A6A239 /* JCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AABE497B09FF9CD000A6A239 /* JCAppDelegate.m */; };
 		AADC65F30A1DFCF000C0096D /* net.sf.jumpcut.ghost_scissors_small.png in Resources */ = {isa = PBXBuildFile; fileRef = AADC65F20A1DFCEF00C0096D /* net.sf.jumpcut.ghost_scissors_small.png */; };
 		AAE200780A228741002DCC2A /* net.sf.jumpcut.preferences.appearance.tiff in Resources */ = {isa = PBXBuildFile; fileRef = AAE200770A228741002DCC2A /* net.sf.jumpcut.preferences.appearance.tiff */; };
 		AAE2FD090A1EC35D002DCC2A /* net.sf.jumpcut.preferences.general.tiff in Resources */ = {isa = PBXBuildFile; fileRef = AAE2FD080A1EC35D002DCC2A /* net.sf.jumpcut.preferences.general.tiff */; };
@@ -88,6 +93,11 @@
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0A2407A9165932E600B6DDBC /* JCDefaultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDefaultsController.h; sourceTree = "<group>"; };
+		0A2407AA165932E600B6DDBC /* JCDefaultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDefaultsController.m; sourceTree = "<group>"; };
+		0A2407AD16593C3500B6DDBC /* JCDefaultsController_setters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDefaultsController_setters.h; sourceTree = "<group>"; };
+		0A2407AF16593D7B00B6DDBC /* JCContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCContext.h; sourceTree = "<group>"; };
+		0A2407B016593D7B00B6DDBC /* JCContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCContext.m; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -133,8 +143,8 @@
 		AABE496409FF227E00A6A239 /* JumpcutClipping.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JumpcutClipping.m; sourceTree = "<group>"; };
 		AABE496509FF227E00A6A239 /* JumpcutStore.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JumpcutStore.h; sourceTree = "<group>"; };
 		AABE496609FF227E00A6A239 /* JumpcutStore.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JumpcutStore.m; sourceTree = "<group>"; };
-		AABE497A09FF9CD000A6A239 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
-		AABE497B09FF9CD000A6A239 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		AABE497A09FF9CD000A6A239 /* JCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JCAppDelegate.h; sourceTree = "<group>"; };
+		AABE497B09FF9CD000A6A239 /* JCAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JCAppDelegate.m; sourceTree = "<group>"; };
 		AADC65F20A1DFCEF00C0096D /* net.sf.jumpcut.ghost_scissors_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = net.sf.jumpcut.ghost_scissors_small.png; sourceTree = "<group>"; };
 		AAE200770A228741002DCC2A /* net.sf.jumpcut.preferences.appearance.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = net.sf.jumpcut.preferences.appearance.tiff; sourceTree = "<group>"; };
 		AAE2FD080A1EC35D002DCC2A /* net.sf.jumpcut.preferences.general.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = net.sf.jumpcut.preferences.general.tiff; sourceTree = "<group>"; };
@@ -164,8 +174,13 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				AABE497A09FF9CD000A6A239 /* AppController.h */,
-				AABE497B09FF9CD000A6A239 /* AppController.m */,
+				AABE497A09FF9CD000A6A239 /* JCAppDelegate.h */,
+				AABE497B09FF9CD000A6A239 /* JCAppDelegate.m */,
+				0A2407A9165932E600B6DDBC /* JCDefaultsController.h */,
+				0A2407AA165932E600B6DDBC /* JCDefaultsController.m */,
+				0A2407AD16593C3500B6DDBC /* JCDefaultsController_setters.h */,
+				0A2407AF16593D7B00B6DDBC /* JCContext.h */,
+				0A2407B016593D7B00B6DDBC /* JCContext.m */,
 				AABE496009FF227E00A6A239 /* JumpcutEngine */,
 				AA0875E60B800F2600C1F175 /* LoginItem */,
 				7EBCE1E0165684D2009DCBF2 /* SRRecorder */,
@@ -348,6 +363,9 @@
 				7EBCE1F3165684D2009DCBF2 /* SRRecorderCell.h in Headers */,
 				7EBCE1F5165684D2009DCBF2 /* SRRecorderControl.h in Headers */,
 				7EBCE1F7165684D2009DCBF2 /* SRValidator.h in Headers */,
+				0A2407AB165932E600B6DDBC /* JCDefaultsController.h in Headers */,
+				0A2407AE16593C3500B6DDBC /* JCDefaultsController_setters.h in Headers */,
+				0A2407B116593D7B00B6DDBC /* JCContext.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,7 +449,7 @@
 				AABE496A09FF227E00A6A239 /* JumpcutClipping.m in Sources */,
 				AABE496B09FF227E00A6A239 /* JumpcutStore.m in Sources */,
 				AA058DC80A10512100DB7366 /* UKPrefsPanel.m in Sources */,
-				AABE497C09FF9CD000A6A239 /* AppController.m in Sources */,
+				AABE497C09FF9CD000A6A239 /* JCAppDelegate.m in Sources */,
 				8EA150C414371A5F0069E71B /* LaunchAtLoginController.m in Sources */,
 				7EBCE1AE16567306009DCBF2 /* SGHotKey.m in Sources */,
 				7EBCE1B016567306009DCBF2 /* SGHotKeyCenter.m in Sources */,
@@ -443,6 +461,8 @@
 				7EBCE1F4165684D2009DCBF2 /* SRRecorderCell.m in Sources */,
 				7EBCE1F6165684D2009DCBF2 /* SRRecorderControl.m in Sources */,
 				7EBCE1F8165684D2009DCBF2 /* SRValidator.m in Sources */,
+				0A2407AC165932E600B6DDBC /* JCDefaultsController.m in Sources */,
+				0A2407B216593D7B00B6DDBC /* JCContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
