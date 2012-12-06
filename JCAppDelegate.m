@@ -14,6 +14,8 @@
 #import "SRRecorderCell.h"
 #import "LaunchAtLoginController.h"
 #import "JCContext.h"
+#import "JCDefaultsController.h"
+#import "JCDefaultsController_setters.h"
 
 
 #define _DISPLENGTH 40
@@ -28,22 +30,8 @@
 
 - (void)awakeFromNib
 {
-	// Initialize the JumpcutStore
-	clippingStore = [[JumpcutStore alloc] initRemembering:[[NSUserDefaults standardUserDefaults] integerForKey:@"rememberNum"]
-											   displaying:[[NSUserDefaults standardUserDefaults] integerForKey:@"displayNum"]
-										withDisplayLength:_DISPLENGTH];
 	// Set up the bezel window
-    NSSize windowSize = NSMakeSize(325.0, 325.0);
-    NSSize screenSize = [[NSScreen mainScreen] frame].size;
-	NSRect windowFrame = NSMakeRect( (screenSize.width - windowSize.width) / 2,
-                                     (screenSize.height - windowSize.height) / 3,
-									 windowSize.width, windowSize.height );
-	bezel = [[BezelWindow alloc] initWithContentRect:windowFrame
-										   styleMask:NSBorderlessWindowMask
-											 backing:NSBackingStoreBuffered
-											   defer:NO];
-	[bezel setDelegate:self];
-	[bezel setDelegate:self];
+
 
 	// Create our pasteboard interface
     jcPasteboard = [NSPasteboard generalPasteboard];
@@ -57,12 +45,8 @@
     [statusItem setImage:[NSImage imageNamed:@"net.sf.jumpcut.scissors_bw16.png"]];
 	[statusItem setMenu:jcMenu];
     [statusItem setEnabled:YES];
-	
-    // If our preferences indicate that we are saving, load the dictionary from the saved plist
-    // and use it to get everything set up.
-	if ( [[NSUserDefaults standardUserDefaults] integerForKey:@"savePreference"] >= 1 ) {
-		[self loadEngineFromPList];
-	}
+    [self loadEngineFromPList];
+    
 	// Build our listener timer
     pollPBTimer = [NSTimer scheduledTimerWithTimeInterval:(1.0)
 													target:self
@@ -77,10 +61,6 @@
 
 	// Stack position starts @ 0 by default
 	stackPosition = 0;
-
-	// Make sure we only run the 0.5x transition once
-	[[NSUserDefaults standardUserDefaults] setValue:@0.6f
-											 forKey:@"lastRun"];
 
 	[NSApp activateIgnoringOtherApps: YES];
 }
@@ -97,7 +77,7 @@
 	// allow users to select from a variety of bezels--I've decided to create the
 	// bezel programatically, meaning that I have to go through AppController as
 	// a cutout to allow the user interface to interact w/the bezel.
-	[bezel setAlpha:[sender floatValue]];
+	[self.bezelWindow setAlpha:[sender floatValue]];
 }
 
 - (IBAction) switchMenuIcon:(id)sender
@@ -229,11 +209,6 @@
     CFRelease(veeDownEvent);
     CFRelease(veeUpEvent);
     CFRelease(commandUpEvent);
-    
-//	CGPostKeyboardEvent( (CGCharCode)0, (CGKeyCode)55, true ); // Command down
-//	CGPostKeyboardEvent( (CGCharCode)'v', veeCode, true ); // V down 
-//	CGPostKeyboardEvent( (CGCharCode)'v', veeCode, false ); //  V up 
-//	CGPostKeyboardEvent( (CGCharCode)0, (CGKeyCode)55, false ); // Command up
 }
 
 - (void)pollPB:(NSTimer *)timer
@@ -303,29 +278,29 @@
             case NSHomeFunctionKey:
 				if ( [clippingStore jcListCount] > 0 ) {
 					stackPosition = 0;
-					[bezel setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
-					[bezel setText:[clippingStore clippingContentsAtPosition:stackPosition]];
+					[self.bezelWindow setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
+					[self.bezelWindow setText:[clippingStore clippingContentsAtPosition:stackPosition]];
 				}
 				break;
             case NSEndFunctionKey:
 				if ( [clippingStore jcListCount] > 0 ) {
 					stackPosition = [clippingStore jcListCount] - 1;
-					[bezel setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
-					[bezel setText:[clippingStore clippingContentsAtPosition:stackPosition]];
+					[self.bezelWindow setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
+					[self.bezelWindow setText:[clippingStore clippingContentsAtPosition:stackPosition]];
 				}
 				break;
             case NSPageUpFunctionKey:
 				if ( [clippingStore jcListCount] > 0 ) {
 					stackPosition = stackPosition - 10; if ( stackPosition < 0 ) stackPosition = 0;
-					[bezel setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
-					[bezel setText:[clippingStore clippingContentsAtPosition:stackPosition]];
+					[self.bezelWindow setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
+					[self.bezelWindow setText:[clippingStore clippingContentsAtPosition:stackPosition]];
 				}
 				break;
 			case NSPageDownFunctionKey:
 				if ( [clippingStore jcListCount] > 0 ) {
 					stackPosition = stackPosition + 10; if ( stackPosition >= [clippingStore jcListCount] ) stackPosition = [clippingStore jcListCount] - 1;
-					[bezel setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
-					[bezel setText:[clippingStore clippingContentsAtPosition:stackPosition]];
+					[self.bezelWindow setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
+					[self.bezelWindow setText:[clippingStore clippingContentsAtPosition:stackPosition]];
 				}
 				break;
 			case NSBackspaceCharacter: break;
@@ -338,8 +313,8 @@
 				newStackPosition = pressed == 0x30 ? 9 : [[NSString stringWithCharacters:&pressed length:1] intValue] - 1;
 				if ( [clippingStore jcListCount] >= newStackPosition ) {
 					stackPosition = newStackPosition;
-					[bezel setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
-					[bezel setText:[clippingStore clippingContentsAtPosition:stackPosition]];
+					[self.bezelWindow setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
+					[self.bezelWindow setText:[clippingStore clippingContentsAtPosition:stackPosition]];
 				}
 				break;
             default: // It's not a navigation/application-defined thing, so let's figure out what to do with it.
@@ -355,23 +330,26 @@
 	//Create our hot key
 	[self toggleMainHotKey:[NSNull null]];
     self.applicationContext = [JCContext sharedInstance];
+    clippingStore = [[JumpcutStore alloc] initRemembering:[self.applicationContext.defaultsController historyItemsCount]
+                                            displaying:[self.applicationContext.defaultsController displayCount]
+                                            withDisplayLength:_DISPLENGTH];
 }
 
 - (void) showBezel
 {
 	if ( [clippingStore jcListCount] > 0 && [clippingStore jcListCount] > stackPosition ) {
-		[bezel setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
-		[bezel setText:[clippingStore clippingContentsAtPosition:stackPosition]];
+		[self.bezelWindow setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
+		[self.bezelWindow setText:[clippingStore clippingContentsAtPosition:stackPosition]];
 	} 
-	if ([bezel respondsToSelector:@selector(setCollectionBehavior:)])
-		[bezel setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];	[bezel makeKeyAndOrderFront:nil];
+	if ([self.bezelWindow respondsToSelector:@selector(setCollectionBehavior:)])
+		[self.bezelWindow setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];	[self.bezelWindow makeKeyAndOrderFront:nil];
 	isBezelDisplayed = YES;
 }
 
 - (void) hideBezel
 {
-	[bezel orderOut:nil];
-	[bezel setCharString:@""];
+	[self.bezelWindow orderOut:nil];
+	[self.bezelWindow setCharString:@""];
 	isBezelDisplayed = NO;
 }
 
@@ -432,7 +410,7 @@
 		if ( [[NSUserDefaults standardUserDefaults] integerForKey:@"savePreference"] >= 1 ) {
 			[self saveEngine];
 		}
-		[bezel setText:@""];
+		[self.bezelWindow setText:@""];
     }
 }
 
@@ -551,13 +529,13 @@
 {
 	stackPosition++;
 	if ( [clippingStore jcListCount] > stackPosition ) {
-		[bezel setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
-		[bezel setText:[clippingStore clippingContentsAtPosition:stackPosition]];
+		[self.bezelWindow setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
+		[self.bezelWindow setText:[clippingStore clippingContentsAtPosition:stackPosition]];
 	} else {
 		if ( [[NSUserDefaults standardUserDefaults] boolForKey:@"wraparoundBezel"] ) {
 			stackPosition = 0;
-			[bezel setCharString:[NSString stringWithFormat:@"%d", 1]];
-			[bezel setText:[clippingStore clippingContentsAtPosition:stackPosition]];
+			[self.bezelWindow setCharString:[NSString stringWithFormat:@"%d", 1]];
+			[self.bezelWindow setText:[clippingStore clippingContentsAtPosition:stackPosition]];
 		} else {
 			stackPosition--;
 		}
@@ -570,15 +548,15 @@
 	if ( stackPosition < 0 ) {
 		if ( [[NSUserDefaults standardUserDefaults] boolForKey:@"wraparoundBezel"] ) {
 			stackPosition = [clippingStore jcListCount] - 1;
-			[bezel setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
-			[bezel setText:[clippingStore clippingContentsAtPosition:stackPosition]];
+			[self.bezelWindow setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
+			[self.bezelWindow setText:[clippingStore clippingContentsAtPosition:stackPosition]];
 		} else {
 			stackPosition = 0;
 		}
 	}
 	if ( [clippingStore jcListCount] > stackPosition ) {
-		[bezel setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
-		[bezel setText:[clippingStore clippingContentsAtPosition:stackPosition]];
+		[self.bezelWindow setCharString:[NSString stringWithFormat:@"%d", stackPosition + 1]];
+		[self.bezelWindow setText:[clippingStore clippingContentsAtPosition:stackPosition]];
 	}
 }
 
@@ -627,9 +605,8 @@
 {
 	if (aRecorder == mainRecorder)
 	{
-		[[NSUserDefaults standardUserDefaults] setObject:
-			[NSDictionary dictionaryWithObjects:@[@([mainRecorder keyCombo].code),@([mainRecorder keyCombo].flags)] forKeys:@[@"keyCode",@"modifierFlags"]]
-		forKey:@"ShortcutRecorder mainHotkey"];
+        [self.applicationContext.defaultsController setShortcutRecorderMainHotkeyPlist:@{ @"keyCode" : @([mainRecorder keyCombo].code),
+                                                                                    @"modifierFlags" : @([mainRecorder keyCombo].flags)}];
 	}
 }
 
@@ -680,5 +657,24 @@
 				object:nil];
 }
 
+
+- (BezelWindow*)bezelWindow
+{
+    if (_bezelWindow == nil)
+    {
+        NSSize windowSize = NSMakeSize(325.0, 325.0);
+        NSSize screenSize = [[NSScreen mainScreen] frame].size;
+        NSRect windowFrame = NSMakeRect( (screenSize.width - windowSize.width) / 2,
+                                        (screenSize.height - windowSize.height) / 3,
+                                        windowSize.width, windowSize.height );
+        _bezelWindow = [[BezelWindow alloc] initWithContentRect:windowFrame
+                                               styleMask:NSBorderlessWindowMask
+                                                 backing:NSBackingStoreBuffered
+                                                   defer:NO];
+        [_bezelWindow setDelegate:self];
+        [_bezelWindow setDelegate:self];
+    }
+    return _bezelWindow;
+}
 
 @end

@@ -8,7 +8,7 @@
 
 #import "JCDefaultsController.h"
 
-@interface JKDefaultsController ()
+@interface JCDefaultsController ()
 
 - (void)setDisplayCount:(NSInteger)displayCount;
 - (void)setShortcutRecorderMainHotkeyPlist:(NSDictionary*)plist;

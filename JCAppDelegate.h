@@ -17,7 +17,6 @@
 
 @interface JCAppDelegate : NSObject <NSApplicationDelegate>
 {
-    BezelWindow					*bezel;
 	SGHotKey					*mainHotKey;
 	IBOutlet SRRecorderControl	*mainRecorder;
 	IBOutlet NSPanel			*prefsPanel;
@@ -50,6 +49,8 @@
     int jcDisplayNum;
 	BOOL issuedRememberResizeWarning;
 }
+
+@property (nonatomic, retain) BezelWindow* bezelWindow;
 
 // Basic functionality
 - (void) pollPB:(NSTimer *)timer;
@@ -87,7 +88,6 @@
 - (IBAction) showPreferencePanel:(id)sender;
 - (IBAction) setRememberNumPref:(id)sender;
 - (IBAction) setDisplayNumPref:(id)sender;
-- (IBAction) setBezelAlpha:(id)sender;
 - (IBAction) switchMenuIcon:(id)sender;
 - (IBAction) toggleLoadOnStartup:(id)sender;
 - (IBAction) toggleMainHotKey:(id)sender;
