@@ -63,6 +63,7 @@
 // Retrieve various values
 - (int) displayLen;
 - (int) jcListCount;
+- (void)moveClippingToTop:(int)index;
 - (NSString *) clippingContentsAtPosition:(int)index;
 - (NSString *) clippingDisplayStringAtPosition:(int)index;
 - (NSString *) clippingTypeAtPosition:(int)index;

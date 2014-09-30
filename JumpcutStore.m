@@ -81,6 +81,13 @@
 }
 
 
+- (void)moveClippingToTop:(int)index {
+	id object = [jcList objectAtIndex:index];
+    [jcList removeObjectAtIndex:index];
+    [jcList insertObject:object atIndex:0];
+}
+
+
 // Set various values
 - (void) setRememberNum:(int)nowRemembering
 {

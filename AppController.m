@@ -287,37 +287,19 @@
 }
 
 - (void)fakeCommandV
-	/*" +fakeCommandV synthesizes keyboard events for Cmd-v Paste 
-	shortcut. "*/ 
-	// Code from a Mark Mason post to Cocoadev-l
-	// What are the flaws in this approach?
-	//  We don't know whether we can really accept the paste
-	//  We have no way of judging whether it's gone through
-	//  Simulating keypresses could have oddball consequences (for instance, if something else was trapping control v)
-	//  Not all apps may take Command-V as a paste command (xemacs, for instance?)
-	// Some sort of AE-based (or System Events-based, or service-based) paste would be preferable in many circumstances.
-	// On the other hand, this doesn't require scripting support, should work for Carbon, etc.
-	// Ideally, in the future, we will be able to tell from what environment JC was passed the trigger
-	// and have different behavior from each.
+	/*" +fakeCommandV synthesizes keyboard events for Cmd-v Paste shortcut. "*/ 
 {    
-	NSNumber *keyCode = [srTransformer reverseTransformedValue:@"V"];
-	CGKeyCode veeCode = (CGKeyCode)[keyCode intValue];
-
-    CGEventRef commandDownEvent = CGEventCreateKeyboardEvent(nil, (CGKeyCode)55, true);
-    CGEventRef veeDownEvent = CGEventCreateKeyboardEvent(nil, veeCode, true);
-    CGEventRef veeUpEvent = CGEventCreateKeyboardEvent(nil, veeCode, false);
-    CGEventRef commandUpEvent = CGEventCreateKeyboardEvent(nil, (CGKeyCode)55, false);
-
-    CFRelease(commandDownEvent);
-    CFRelease(veeDownEvent);
-    CFRelease(veeUpEvent);
-    CFRelease(commandUpEvent);
-    
-//	CGPostKeyboardEvent( (CGCharCode)0, (CGKeyCode)55, true ); // Command down
-//	CGPostKeyboardEvent( (CGCharCode)'v', veeCode, true ); // V down 
-//	CGPostKeyboardEvent( (CGCharCode)'v', veeCode, false ); //  V up 
-//	CGPostKeyboardEvent( (CGCharCode)0, (CGKeyCode)55, false ); // Command up
-}
+	CGEventSourceRef source = CGEventSourceCreate(kCGEventSourceStateCombinedSessionState);
+	CGEventRef copyCommandDown = CGEventCreateKeyboardEvent(source, (CGKeyCode)9, YES);
+	CGEventSetFlags(copyCommandDown, kCGEventFlagMaskCommand);
+	CGEventRef copyCommandUp = CGEventCreateKeyboardEvent(source, (CGKeyCode)9, NO);
+	
+	CGEventPost(kCGAnnotatedSessionEventTap, copyCommandDown);
+	CGEventPost(kCGAnnotatedSessionEventTap, copyCommandUp);
+	
+	CFRelease(copyCommandUp);
+	CFRelease(copyCommandDown);
+	CFRelease(source);}
 
 - (void)pollPB:(NSTimer *)timer
 {
@@ -329,7 +311,6 @@
         if ( type != nil ) {
 			NSString *contents = [jcPasteboard stringForType:type];
 			if ( contents == nil ) {
-//                NSLog(@"Contents: Empty");
             } else {
 				if (( [clippingStore jcListCount] == 0 || ! [contents isEqualToString:[clippingStore clippingContentsAtPosition:0]])
 					&&  ! [pbCount isEqualTo:pbBlockCount] ) {
@@ -541,6 +522,10 @@
         item = [[NSMenuItem alloc] initWithTitle:pbMenuTitle
 										  action:@selector(processMenuClippingSelection:)
 								   keyEquivalent:@""];
+
+		NSDictionary *attributes = @{NSFontAttributeName: [NSFont systemFontOfSize:11.0]};
+		NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:[item title] attributes:attributes];
+		[item setAttributedTitle:attributedTitle];
         [item setTarget:self];
         [item setEnabled:YES];
         [jcMenu insertItem:item atIndex:0];
@@ -590,9 +575,14 @@
     pbTypes = @[@"NSStringPboardType"];
     
     [jcPasteboard declareTypes:pbTypes owner:NULL];
-	
     [jcPasteboard setString:pbFullText forType:@"NSStringPboardType"];
     [self setPBBlockCount:[NSNumber numberWithInt:[jcPasteboard changeCount]]];
+	
+	[clippingStore moveClippingToTop:indexInt];
+	[self updateMenu];
+	if ( [[NSUserDefaults standardUserDefaults] integerForKey:@"savePreference"] >= 2 ) {
+		[self saveEngine];
+	}
     return true;
 }
 
